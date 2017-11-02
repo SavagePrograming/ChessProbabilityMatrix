@@ -17,9 +17,9 @@ a, b = ChessMatrixFunctions.MakeStartBoards()
 #      [[3, 2, 1], [3, 2, 1]]])
 # print TensorFuntions.sumDimentions(2,2,a)
 
-IN = 26
+IN = 100
 delay = 0
-rate = 4
+rate = 30
 print rate
 
 COLOR = True
@@ -55,21 +55,8 @@ for i in range(0, 8):
     #         TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(2, 2, a_[:, :, :8]), TensorFuntions.getMaxSizeRecursivly(TensorFuntions.sumDimentions(2, 2, a_[:, :, :8])))[1])
     #     print sum(sum(sum(a_)))
     out1, out2, outCOLOR = ChessMatrixFunctions.goNGenerationsVisual( a_, b_, COLOR, IN, delay, screen, rate)
+    ChessMatrixFunctions.printTurnStats(out1, out2, outCOLOR)
     if outCOLOR:
-        print "--------------- White----------------------"
-        print "\n".join(
-            TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(2, 2, out1[:, :, :8]), TensorFuntions.getMaxSizeRecursivly(TensorFuntions.sumDimentions(2, 2, out1[:, :, :8])))[1])
-        o1 = [ChessMatrixFunctions.peices, sum(sum(out1))]
-        print "\n".join(TensorFuntions.printRecusivlySize(o1, TensorFuntions.getMaxSizeRecursivly(o1))[1])
-        print "Total:",sum(sum(sum(out1)))
-        print "------------------Black------------------"
-        print "\n".join(
-            TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(2, 2, out2[:, :, :8]), TensorFuntions.getMaxSizeRecursivly(TensorFuntions.sumDimentions(2, 2, out2[:, :, :8])))[1])
-
-        o2 = [ChessMatrixFunctions.peices, sum(sum(out2))]
-        print "\n".join(TensorFuntions.printRecusivlySize(o2, TensorFuntions.getMaxSizeRecursivly(o2))[1])
-        print "Total:", sum(sum(sum(out2)))
-
         if BestSum is None:
             BestSum = sum(sum(sum(out1))) - sum(sum(sum(out2)))
             BestIndex = i
@@ -77,20 +64,6 @@ for i in range(0, 8):
             BestSum = sum(sum(sum(out1))) - sum(sum(sum(out2)))
             BestIndex = i
     else:
-        print "--------------- White----------------------"
-        print "\n".join(
-            TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(2, 2, out2[:, :, :8]), TensorFuntions.getMaxSizeRecursivly(TensorFuntions.sumDimentions(2, 2, out2[:, :, :8])))[1])
-        # print sum(sum(out2))
-        o2 = [ChessMatrixFunctions.peices, sum(sum(out2))]
-        print "\n".join(TensorFuntions.printRecusivlySize(o2, TensorFuntions.getMaxSizeRecursivly(o2))[1])
-        print "Total:", sum(sum(sum(out2)))
-        print "------------------Black------------------"
-        print "\n".join(
-            TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(2, 2, out1[:, :, :8]), TensorFuntions.getMaxSizeRecursivly(TensorFuntions.sumDimentions(2, 2, out1[:, :, :8])))[1])
-        # print sum(sum(out1))
-        o1 = [ChessMatrixFunctions.peices, sum(sum(out1))]
-        print "\n".join(TensorFuntions.printRecusivlySize(o1, TensorFuntions.getMaxSizeRecursivly(o1))[1])
-        print "Total:", sum(sum(sum(out1)))
         if BestSum is None:
             BestSum = sum(sum(sum(out2))) - sum(sum(sum(out1)))
             BestIndex = i

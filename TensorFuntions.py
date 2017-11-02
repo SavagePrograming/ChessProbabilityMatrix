@@ -1,9 +1,13 @@
 import numpy, math
-def join(a,b, indent):
+
+
+def join(a, b, indent):
     return a + indent + b
 
+
 def distance(x1, y1, x2, y2):
-    return ((x1- x2) ** 2. + (y1-y2)**2.) ** .5
+    return ((x1 - x2) ** 2. + (y1 - y2) ** 2.) ** .5
+
 
 def printRecusivly(Array):
     if len(Array) > 0:
@@ -13,7 +17,8 @@ def printRecusivly(Array):
             depth, strings = map(printRecusivly, Array)
             depth = max(depth) + 1
             if depth % 2 == 0:
-                string = reduce(lambda joined, current: map(join, joined, current, ["  " * depth + "|"] * len(joined)), strings)
+                string = reduce(lambda joined, current: map(join, joined, current, ["  " * depth + "|"] * len(joined)),
+                                strings)
             else:
                 string = reduce(lambda joined, current: joined + [""] * depth + ["_" * joined] + current, strings)
 
@@ -76,6 +81,7 @@ def printRecusivlySize(Array, maxStringSize):
             string = map(stringofLength, Array, [maxStringSize] * len(Array))
             return depth, string
 
+
 def multiplyOnto(Tensor1, Tensor2):
     if len(Tensor1) > 0:
         if isinstance(Tensor1[0], list) or isinstance(Tensor1[0], numpy.ndarray):
@@ -84,6 +90,7 @@ def multiplyOnto(Tensor1, Tensor2):
         else:
             return numpy.array(map(lambda scalar, tensor: scalar * tensor, Tensor1, [Tensor2] * len(Tensor1)))
 
+
 def multiplyOntoinside(Tensor1, Tensor2):
     if len(Tensor1) > 0:
         if isinstance(Tensor1[0], list) or isinstance(Tensor1[0], numpy.ndarray):
@@ -91,11 +98,13 @@ def multiplyOntoinside(Tensor1, Tensor2):
         else:
             return map(lambda scalar, tensor: scalar * tensor, Tensor1, [Tensor2] * len(Tensor1))
 
+
 def sumDimentions(start, end, Tensor):
     if start > 0:
         return numpy.array(map(sumDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor))
     elif end >= 0:
-        return numpy.array(reduce(lambda t1, t2: t1 + t2, map(sumDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor)))
+        return numpy.array(reduce(lambda t1, t2: t1 + t2,
+                                  map(sumDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor)))
     else:
 
         return Tensor
@@ -109,7 +118,12 @@ def sumDimentionsInside(start, end, Tensor):
         # print "r"
         # print  map(sumDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor)
         # print reduce(lambda t1, t2: t1 + t2, map(sumDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor))
-        return reduce(lambda t1, t2: t1 + t2, map(sumDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor))
+        return reduce(lambda t1, t2: t1 + t2,
+                      map(sumDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor))
     else:
         # print "e", Tensor
         return Tensor
+
+
+def NegateSum(array):
+    return reduce(lambda product, item: (1.0 - item) * product, array, 1.0)

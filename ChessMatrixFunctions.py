@@ -9,7 +9,10 @@ imagelocblack = ['pictures/bpawn.png', 'pictures/brook.png', 'pictures/bknight.p
 imagesWhite = map(pygame.image.load, imagelocwhite)
 imagesBlack = map(pygame.image.load, imagelocblack)
 
-peices = ["Pawn","Pawn","Pawn","Pawn","Pawn","Pawn","Pawn","Pawn","Rook","Rook","Knight","Knight","Bishop","Bishop","Queen","King"]
+peices = ["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Rook", "Rook", "Knight", "Knight", "Bishop",
+          "Bishop", "Queen", "King"]
+
+
 def MakeStartBoards():
     """
     Matrix Format
@@ -122,7 +125,7 @@ def MakeStartBoards():
                          [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
                          [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
                          [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]]), \
-           numpy.array([[[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+           numpy.array([[[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
                          [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
                          [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
                          [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
@@ -203,31 +206,48 @@ def MakeNextBoards(Same, Other, color):
     :param color: True is white, False is black
     :return:
     """
-    pawnMoved, pawnRemoved, pawnAdded =[],[],[]
-    for i in range(0,8):
+    pawnMoved, pawnRemoved, pawnAdded = [], [], []
+    for i in range(0, 8):
         pawnMoved_, pawnRemoved_, pawnAdded_ = getNewPawns(Same, Other, color, i)
-        pawnMoved.append(numpy.reshape(pawnMoved_, (8,8,1)))
+        pawnMoved.append(numpy.reshape(pawnMoved_, (8, 8, 1)))
         pawnRemoved.append(pawnRemoved_)
-        pawnAdded.append(numpy.reshape(pawnAdded_, (8,8,1)))
-    # pawnMoved = numpy.array(pawnMoved)
-    # pawnAdded = numpy.array(pawnAdded)
+        pawnAdded.append(numpy.reshape(pawnAdded_, (8, 8, 1)))
+
+    for i in range(8, 10):
+        rookMoved_1, rookRemoved_1, rookAdded_1 = getNewRooks(Same, Other, color, i)
+        pawnMoved.append(numpy.reshape(rookMoved_1, (8, 8, 1)))
+        pawnRemoved.append(rookRemoved_1)
+        pawnAdded.append(numpy.reshape(rookAdded_1, (8, 8, 1)))
+    pawnMoved = numpy.array(pawnMoved)
+    pawnAdded = numpy.array(pawnAdded)
+    # print "moved"
+    # print "\n".join(
+    #     TensorFuntions.printRecusivlySize(pawnMoved[0],
+    #                                       TensorFuntions.getMaxSizeRecursivly(pawnMoved[0]))[1])
 
     # print pawnMoved
     # print Same[:, :, 0]
     # print (numpy.concatenate(pawnMoved, 2))[:, :, 0]
     pawnMoved = numpy.concatenate(pawnMoved, 2)
 
-    MovedPeices = numpy.concatenate((pawnMoved, numpy.array([[[0.0] * 8] * 8] * 8)), 2)
+    MovedPeices = numpy.concatenate((pawnMoved, numpy.array([[[0.0] * 6] * 8] * 8)), 2)
     # print " =================================== "
     # print "\n".join(TensorFuntions.printRecusivlySize(MovedPeices, 5)[1])
     # # print "\n".join(TensorFuntions.printRecusivlySize(MovedPeices[:,:,0], 5)[1])
     # print sum(sum(MovedPeices[:, :, 0]))
-    RemovedPeices = sum(pawnRemoved) / sum(sum(sum(MovedPeices)))
+    if not sum(sum(sum(MovedPeices))) == 0:
+        RemovedPeices = sum(pawnRemoved) / sum(sum(sum(MovedPeices)))
+    else:
+        RemovedPeices = sum(pawnRemoved) * 0
     pawnAdded = numpy.concatenate(pawnAdded, 2)
-    AddedPeices = numpy.concatenate((pawnAdded, numpy.array([[[0.0] * 8] * 8] * 8)), 2)
+    AddedPeices = numpy.concatenate((pawnAdded, numpy.array([[[0.0] * 6] * 8] * 8)), 2)
     # print AddedPeices.shape
-    MovedPeices /= sum(sum(sum(MovedPeices)))
-    AddedPeices /= sum(sum(sum(AddedPeices)))
+    if not  sum(sum(sum(MovedPeices))) == 0:
+        MovedPeices /= sum(sum(sum(MovedPeices)))
+
+    if not sum(sum(sum(AddedPeices))) == 0:
+        AddedPeices /= sum(sum(sum(AddedPeices)))
+
     # AddedPeices *= 8. - sum(sum((Same * (1 - MovedPeices))[:, :, 0]))
     # AddedPeices *= sum(sum(sum((1 - Same * (MovedPeices)))))
     # print " =================================== "
@@ -262,9 +282,9 @@ def getNewPawns(Same, Other, color, PawnNumber):
         leftSame = numpy.concatenate((TensorFuntions.sumDimentions(2, 2, Same)[1:], [[0.0] * 8]), 0)
 
         takingOther = numpy.concatenate((leftOther[:, 1:], [[0.0]] * 8), 1) + \
-                     numpy.concatenate(([[0.0]] * 8, leftOther[:, :-1]), 1)
+                      numpy.concatenate(([[0.0]] * 8, leftOther[:, :-1]), 1)
         # MovedPeices = Same[:, :, 0]
-        # RemovedPeices = numpy.array(map(lambda num: Other[:, :, num] * takingSame, [0, 1, 2, 3, 4, 5])) #sum(Other) * takingSame
+        # RemovedPeices = numpy.array(map(lambda num: Other[:, :, num] * takingSame, [0, 1, 2, 2, 4, 5])) #sum(Other) * takingSame
         # AddedPeices = TensorFuntions.sumDimentions(2,2, Other) * takingSame + \
         #               movedSame * (1 - TensorFuntions.sumDimentions(2,2,Same)) * (1 - TensorFuntions.sumDimentions(2,2, Other))
     else:
@@ -283,7 +303,6 @@ def getNewPawns(Same, Other, color, PawnNumber):
     # print movedSame
     MovedPeices = Same[:, :, PawnNumber] * takingOther + Same[:, :, PawnNumber] * (1 - leftOther) * (1 - leftSame)
 
-
     RemovedPeices = numpy.array(
         map(map, [lambda a, b: a * b] * 8, takingSame, Other))  # sum(Other) * takingSame
     AddedPeices = TensorFuntions.sumDimentions(2, 2, Other) * takingSame + \
@@ -292,44 +311,81 @@ def getNewPawns(Same, Other, color, PawnNumber):
 
     return MovedPeices, RemovedPeices, AddedPeices
 
-# def getNewRooks(Same, Other, color, rookNumber):
-#     MovedPeices = []
-#     RemovedPeices = []
-#     AddedPeices = [[[1.0] * 8]*8]
-#     movedForward = map(lambda num: numpy.concatenate(([[0.0] * 8] * num, Same[:-num, :, rookNumber]), 0), xrange(1, 7))
-#     movedBack = map(lambda num: numpy.concatenate((Same[num:, :, rookNumber], [[0.0] * 8] * num), 0), xrange(1, 7))
-#     InwayForward = []
-#     for f in range(2,8):
-#         InwayForward.append([])
-#         for x in range(0,8):
-#             InwayForward[f-1].append([])
-#
-#             for y in range(0,8):
-#                 InwayForward[f-1][x]
-#                 for jump in range(1,f)
-#                     InwayForward[f - 1][x]
-#
-#     InwayForward = map(lambda num: numpy.concatenate((Same[num:], [[0.0] * 8] * num), 0), xrange(1, 7))
-#     movedSame = numpy.concatenate(([[0.0] * 8], Same[:-1, :, rookNumber]), 0)
-#     takingSame = numpy.concatenate((movedSame[:, 1:], [[0.0]] * 8), 1) + \
-#                  numpy.concatenate(([[0.0]] * 8, movedSame[:, :-1]), 1)
-#
-#     leftOther = numpy.concatenate((TensorFuntions.sumDimentions(2, 2, Other)[1:], [[0.0] * 8]), 0)
-#     leftSame = numpy.concatenate((TensorFuntions.sumDimentions(2, 2, Same)[1:], [[0.0] * 8]), 0)
-#
-#     takingOther = numpy.concatenate((leftOther[:, 1:], [[0.0]] * 8), 1) + \
-#                  numpy.concatenate(([[0.0]] * 8, leftOther[:, :-1]), 1)
-#
-#     MovedPeices = Same[:, :, rookNumber] * takingOther + Same[:, :, rookNumber] * (1 - leftOther) * (1 - leftSame)
-#
-#
-#     RemovedPeices = numpy.array(
-#         map(map, [lambda a, b: a * b] * 8, takingSame, Other))  # sum(Other) * takingSame
-#     AddedPeices = TensorFuntions.sumDimentions(2, 2, Other) * takingSame + \
-#                   movedSame * (1 - TensorFuntions.sumDimentions(2, 2, Same)) * (
-#                       1 - TensorFuntions.sumDimentions(2, 2, Other))
-#
-#     return MovedPeices, RemovedPeices, AddedPeices
+
+def getNewRooks(Same, Other, color, rookNumber):
+    MovedPeices = []
+    RemovedPeices = []
+    AddedPeices = []
+    for x in range(0,8):
+        MovedPeices.append([])
+        AddedPeices.append([])
+        RemovedPeices.append([])
+        for y in range(0,8):
+            MovedPeices[x].append(0.0)
+            AddedPeices[x].append(0.0)
+            RemovedPeices[x].append([])
+            for i in range(0,16):
+                RemovedPeices[x][y].append(0.0)
+
+
+    for x in range(0, len(Same)):
+        for y in range(0, len(Same[x])):
+            for yprime in range(0, len(Same[x])):
+                if yprime != y:
+                    if abs(y - yprime) != 1:
+                        intheway = sum(Same[x, min(y, yprime) + 1:max(y, yprime), :])
+                        inthewayOther = sum(Other[x, min(y, yprime) + 1:max(y, yprime), :])
+
+                        out = TensorFuntions.NegateSum(intheway) *  TensorFuntions.NegateSum(inthewayOther) * Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[x, yprime, :])
+                        # if out > 0:
+                        #     print TensorFuntions.NegateSum(intheway), intheway
+
+                    else:
+
+                        #     print x, yprime, TensorFuntions.NegateSum(Same[x, yprime, :]), Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[x, yprime, :])
+                        out = Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[x, yprime, :])
+                    # print out
+                    # if Same[x, y, rookNumber] > 0:
+                    #     print "(",x, ",", y, "),(",x, ",", yprime, "):",out
+                    MovedPeices[x][y] += out
+                    AddedPeices[x][yprime] += out
+                    for i in range(0, 16):
+                        RemovedPeices[x][y][i] = out * Other[x][yprime][i]
+
+            for xprime in range(0, len(Same)):
+                if x != xprime:
+                    if abs(xprime - x) != 1:
+
+                        inthewayself = sum(Same[min(x, xprime) + 1:max(x, xprime), y])
+                        inthewayOther = sum(Other[min(x, xprime) + 1:max(x, xprime), y])
+
+                        out = TensorFuntions.NegateSum(intheway) * TensorFuntions.NegateSum(inthewayOther) * Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[xprime, y])
+                        # if out != 0:
+                        #     print TensorFuntions.NegateSum(intheway), intheway, TensorFuntions.NegateSum(Same[xprime, y])
+                    else:
+
+                        out = Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[xprime, y, :])
+                        # if out != 0:
+                        #     print Same[x, y, rookNumber], TensorFuntions.NegateSum(Same[xprime, y, :])
+                        # if Same[x, y, rookNumber]  > 0:
+                        #     print xprime,  y, TensorFuntions.NegateSum(Same[xprime, y, :]),  Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[xprime, y, :])
+                    # print out
+                    # if Same[x, y, rookNumber] > 0:
+                    #     print "(", x, ",", y, "),(", xprime, ",", y, "):", out
+                    MovedPeices[x][y] += out
+                    AddedPeices[xprime][y] += out
+                    for i in range(0, 16):
+                        RemovedPeices[x][y][i] = out * Other[xprime][y][i]
+    # print "moved"#, sum(sum(MovedPeices))
+    # print "\n".join(
+    #     TensorFuntions.printRecusivlySize(MovedPeices,
+    #                                       TensorFuntions.getMaxSizeRecursivly(MovedPeices))[1])
+    # print "added"  # , sum(sum(MovedPeices))
+    # print "\n".join(
+    #     TensorFuntions.printRecusivlySize(AddedPeices,
+    #                                       TensorFuntions.getMaxSizeRecursivly(AddedPeices))[1])
+    return numpy.array(MovedPeices), numpy.array(RemovedPeices), numpy.array(AddedPeices)
+
 
 def goNGenerations(a, b, COLOR, N):
     count = 1
@@ -342,6 +398,7 @@ def goNGenerations(a, b, COLOR, N):
 
 def goNGenerationsVisual(a, b, COLOR, N, delay, Screen, rate):
     count = 1
+    printTurnStats(a,b,COLOR)
     while N > count:
         count += 1
         b, a = MakeNextBoards(a, b, COLOR)
@@ -349,28 +406,7 @@ def goNGenerationsVisual(a, b, COLOR, N, delay, Screen, rate):
         if count % rate == 0:
             if delay != 0:
                 pygame.time.delay(delay)
-            # if COLOR:
-            #     print "--------------- White----------------------"
-            #     print "\n".join(
-            #         TensorFuntions.printRecusivlySize(a[:, :, 0],
-            #                                           TensorFuntions.getMaxSizeRecursivly(a[:, :, 0]))[1])
-            #     print sum(sum(sum(a)))
-            #     print "------------------Black------------------"
-            #     print "\n".join(
-            #         TensorFuntions.printRecusivlySize(b[:, :, 0],
-            #                                           TensorFuntions.getMaxSizeRecursivly(b[:, :, 0]))[1])
-            #     print sum(sum(sum(b)))
-            # else:
-            #     print "--------------- White----------------------"
-            #     print "\n".join(
-            #         TensorFuntions.printRecusivlySize(b[:, :, 0],
-            #                                           TensorFuntions.getMaxSizeRecursivly(b[:, :, 0]))[1])
-            #     print sum(sum(sum(b)))
-            #     print "------------------Black------------------"
-            #     print "\n".join(
-            #         TensorFuntions.printRecusivlySize(a[:, :, 0],
-            #                                           TensorFuntions.getMaxSizeRecursivly(a[:, :, 0]))[1])
-            #     print sum(sum(sum(a)))
+            printTurnStats(a, b, COLOR)
             Draw(a, b, COLOR, Screen)
             pygame.display.flip()
             for event in pygame.event.get():
@@ -394,17 +430,17 @@ def Draw(Same, Other, COLOR, Screen):
                 else:
                     drawSquare(x, y, p, Same[y][x][10 + p], not COLOR, Screen)
                     drawSquare(x, y, p, Other[y][x][10 + p], COLOR, Screen)
-    # map(map, [map] * 8, [[map] * 8] * 8, [[[drawSquare] * 6] * 8] * 8,
-    #     [[[0] * 6] * 8, [[1] * 6] * 8, [[2] * 6] * 8, [[3] * 6] * 8, [[4] * 6] * 8, [[5] * 6] * 8, [[6] * 6] * 8,
-    #      [[7] * 6] * 8],
-    #     [[[0] * 6, [1] * 6, [2] * 6, [3] * 6, [4] * 6, [5] * 6, [6] * 6, [7] * 6]] * 8,
-    #     [[[0, 1, 2, 3, 4, 5]] * 8] * 8, Same, [[[COLOR] * 6] * 8] * 8, [[[Screen] * 6] * 8] * 8)
-    #
-    # map(map, [map] * 8, [[map] * 8] * 8, [[[drawSquare] * 6] * 8] * 8,
-    #     [[[0] * 6] * 8, [[1] * 6] * 8, [[2] * 6] * 8, [[3] * 6] * 8, [[4] * 6] * 8, [[5] * 6] * 8, [[6] * 6] * 8,
-    #      [[7] * 6] * 8],
-    #     [[[0] * 6, [1] * 6, [2] * 6, [3] * 6, [4] * 6, [5] * 6, [6] * 6, [7] * 6]] * 8,
-    #     [[[0, 1, 2, 3, 4, 5]] * 8] * 8, Other, [[[not COLOR] * 6] * 8] * 8, [[[Screen] * 6] * 8] * 8)
+                    # map(map, [map] * 8, [[map] * 8] * 8, [[[drawSquare] * 6] * 8] * 8,
+                    #     [[[0] * 6] * 8, [[1] * 6] * 8, [[2] * 6] * 8, [[3] * 6] * 8, [[4] * 6] * 8, [[5] * 6] * 8, [[6] * 6] * 8,
+                    #      [[7] * 6] * 8],
+                    #     [[[0] * 6, [1] * 6, [2] * 6, [3] * 6, [4] * 6, [5] * 6, [6] * 6, [7] * 6]] * 8,
+                    #     [[[0, 1, 2, 2, 4, 5]] * 8] * 8, Same, [[[COLOR] * 6] * 8] * 8, [[[Screen] * 6] * 8] * 8)
+                    #
+                    # map(map, [map] * 8, [[map] * 8] * 8, [[[drawSquare] * 6] * 8] * 8,
+                    #     [[[0] * 6] * 8, [[1] * 6] * 8, [[2] * 6] * 8, [[3] * 6] * 8, [[4] * 6] * 8, [[5] * 6] * 8, [[6] * 6] * 8,
+                    #      [[7] * 6] * 8],
+                    #     [[[0] * 6, [1] * 6, [2] * 6, [3] * 6, [4] * 6, [5] * 6, [6] * 6, [7] * 6]] * 8,
+                    #     [[[0, 1, 2, 2, 4, 5]] * 8] * 8, Other, [[[not COLOR] * 6] * 8] * 8, [[[Screen] * 6] * 8] * 8)
 
 
 def drawSquare(x, y, p, opacity, COLOR, Screen):
@@ -426,3 +462,27 @@ def makeScreen():
     Screen = pygame.display.set_mode([450, 450])
     Screen.fill([255, 255, 255])
     return Screen
+
+def printBoardStats(b):
+    print "Pawns"
+    print "\n".join(TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(2, 2, b[:, :, :8]),
+                                                      TensorFuntions.getMaxSizeRecursivly(
+                                                          TensorFuntions.sumDimentions(2, 2, b[:, :, :8])))[1])
+    print "Rooks"
+    print "\n".join(TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(2, 2, b[:, :, 8:10]),
+                                                      TensorFuntions.getMaxSizeRecursivly(
+                                                          TensorFuntions.sumDimentions(2, 2, b[:, :, 8:10])))[1])
+
+    print sum(sum(sum(b)))
+
+def printTurnStats(a,b,Color):
+    if Color:
+        print "--------------- White----------------------"
+        printBoardStats(a)
+        print "------------------Black------------------"
+        printBoardStats(b)
+    else:
+        print "--------------- White----------------------"
+        printBoardStats(b)
+        print "------------------Black------------------"
+        printBoardStats(a)
