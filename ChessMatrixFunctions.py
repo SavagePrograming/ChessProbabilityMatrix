@@ -13,7 +13,6 @@ peices = ["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Rook"
           "Bishop", "Queen", "King"]
 
 
-
 def MakeNextBoards(Same, Other, color):
     """
 
@@ -22,7 +21,7 @@ def MakeNextBoards(Same, Other, color):
     :param color: True is white, False is black
     :return:
     """
-    PAWNS,ROOKS = True, True
+    PAWNS, ROOKS = True, True
     pawnMoved, pawnRemoved, pawnAdded = [], [], []
     if PAWNS:
         for i in range(0, 8):
@@ -132,28 +131,43 @@ def getOutArray(x, y, xprime, yprime, Same, Other, rookNumber):
                 return Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[x, yprime, :])
 
 
+def RookHelper(x, y, primeLoc, Same, Other, rookNumber, MovedPeices, AddedPeices, RemovedPeices):
+    out = getOutArray(x, y, primeLoc[0], primeLoc[1], Same, Other, rookNumber)
+    MovedPeices[x][y] += out
+    AddedPeices[primeLoc[0]][primeLoc[1]] += out
+    RemovedPeices[x][y] = map(lambda other: out * other, Other[primeLoc[0]][primeLoc[1]])
+
+
 def getNewRooks(Same, Other, color, rookNumber):
     MovedPeices = map(lambda count: map(lambda count: 0.0, xrange(0, 8)), xrange(0, 8))
-    RemovedPeices =  map(lambda count: map(lambda count: map(lambda count: 0.0, xrange(0,16)), xrange(0,8)), xrange(0,8))
-    AddedPeices =  map(lambda count: map(lambda count: 0.0, xrange(0, 8)), xrange(0, 8))
+    RemovedPeices = map(lambda count: map(lambda count: map(lambda count: 0.0, xrange(0, 16)), xrange(0, 8)),
+                        xrange(0, 8))
+    AddedPeices = map(lambda count: map(lambda count: 0.0, xrange(0, 8)), xrange(0, 8))
 
-    for x in range(0, len(Same)):
-        for y in range(0, len(Same[x])):
-            for yprime in range(0, len(Same[x])):
-                if yprime != y:
-                    out = getOutArray(x, y, x, yprime, Same, Other, rookNumber)
-                    MovedPeices[x][y] += out
-                    AddedPeices[x][yprime] += out
-                    RemovedPeices[x][y] = map(lambda other: out * other, Other[x][yprime])
-                    # for i in range(0, 16):
-                    #     RemovedPeices[x][y][i] = out * Other[x][yprime][i]
+    map(lambda x: map(
+        lambda y: map(lambda primeLoc: RookHelper(x, y, primeLoc, Same, Other, rookNumber, MovedPeices, AddedPeices,
+                                                  RemovedPeices),
+                      map(lambda x, yprime: [x, yprime], [x] * 7,
+                          filter(lambda yprime: y != yprime, [0, 1, 2, 3, 4, 5, 6, 7])) +
+                      map(lambda y, xprime: [xprime, y], [y] * 7,
+                          filter(lambda xprime: x != xprime, [0, 1, 2, 3, 4, 5, 6, 7]))), [0, 1, 2, 3, 4, 5, 6, 7]),
+        [0, 1, 2, 3, 4, 5, 6, 7])
 
-            for xprime in range(0, len(Same)):
-                if x != xprime:
-                    out = getOutArray(x, y, xprime, y, Same, Other, rookNumber)
-                    MovedPeices[x][y] += out
-                    AddedPeices[xprime][y] += out
-                    RemovedPeices[x][y] = map(lambda other: out * other, Other[xprime][y])
+        # for yprime in range(0, len(Same[x])):
+        #     if yprime != y:
+        #         out = getOutArray(x, y, x, yprime, Same, Other, rookNumber)
+        #         MovedPeices[x][y] += out
+        #         AddedPeices[x][yprime] += out
+        #         RemovedPeices[x][y] = map(lambda other: out * other, Other[x][yprime])
+        #         # for i in range(0, 16):
+        #         #     RemovedPeices[x][y][i] = out * Other[x][yprime][i]
+        #
+        # for xprime in range(0, len(Same)):
+        #     if x != xprime:
+        #         out = getOutArray(x, y, xprime, y, Same, Other, rookNumber)
+        #         MovedPeices[x][y] += out
+        #         AddedPeices[xprime][y] += out
+        #         RemovedPeices[x][y] = map(lambda other: out * other, Other[xprime][y])
 
     return numpy.array(MovedPeices), numpy.array(RemovedPeices), numpy.array(AddedPeices)
 

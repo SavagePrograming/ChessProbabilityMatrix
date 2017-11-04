@@ -6,8 +6,8 @@ for x in [0, 1, 2, 3, 4, 5, 6, 7]:
     for y in [0, 1, 2, 4, 5, 6, 7]:
         array.append([x, y])
 
-a, b = BoardMakers.makeBoards([["Q", array]], [])
-
+# a, b = BoardMakers.makeBoards([["Q", array]], [])
+a, b =  BoardMakers.MakeStartBoards()
 # a[1][0][0] = 0.0
 # a[2][0][0] = 1.0
 
@@ -39,8 +39,8 @@ BestIndex = 0
 # for i in range(0, 8):
 
 a_ = numpy.array(a)
-a_[0][3][8] = 1.0
-a_[1][3][1] = 1.0
+# a_[0][3][8] = 1.0
+# a_[1][3][1] = 1.0
 a_, b_ = b, a_
 # if COLOR:
 #     print "--------------- White----------------------"
