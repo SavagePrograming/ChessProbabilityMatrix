@@ -153,24 +153,35 @@ def getNewRooks(Same, Other, color, rookNumber):
                           filter(lambda xprime: x != xprime, [0, 1, 2, 3, 4, 5, 6, 7]))), [0, 1, 2, 3, 4, 5, 6, 7]),
         [0, 1, 2, 3, 4, 5, 6, 7])
 
-        # for yprime in range(0, len(Same[x])):
-        #     if yprime != y:
-        #         out = getOutArray(x, y, x, yprime, Same, Other, rookNumber)
-        #         MovedPeices[x][y] += out
-        #         AddedPeices[x][yprime] += out
-        #         RemovedPeices[x][y] = map(lambda other: out * other, Other[x][yprime])
-        #         # for i in range(0, 16):
-        #         #     RemovedPeices[x][y][i] = out * Other[x][yprime][i]
-        #
-        # for xprime in range(0, len(Same)):
-        #     if x != xprime:
-        #         out = getOutArray(x, y, xprime, y, Same, Other, rookNumber)
-        #         MovedPeices[x][y] += out
-        #         AddedPeices[xprime][y] += out
-        #         RemovedPeices[x][y] = map(lambda other: out * other, Other[xprime][y])
-
     return numpy.array(MovedPeices), numpy.array(RemovedPeices), numpy.array(AddedPeices)
 
+
+def getNewKnights(Same, Other, color, KnightNumber):
+    MovedPeices = []
+    RemovedPeices = []
+    AddedPeices = []
+
+    forward = numpy.concatenate(([[0.0] * 8] * 2, Same[:-2, :, KnightNumber]), 0)
+    back = numpy.concatenate((Same[2:, :, KnightNumber], [[0.0] * 8] * 2), 0)
+    left = numpy.concatenate(([[0.0] * 2] * 8, Same[:, :-2, KnightNumber]), 0)
+    right = numpy.concatenate((Same[:, 2:, KnightNumber], [[0.0] * 2] * 8), 0)
+
+    moved = numpy.concatenate(([[0.0] * 1] * 8, forward[:, :-1, KnightNumber]), 0) +\
+            numpy.concatenate((forward[:, 1:, KnightNumber], [[0.0] * 1] * 8), 0) +\
+            numpy.concatenate(([[0.0] * 1] * 8, back[:, :-1, KnightNumber]), 0) +\
+            numpy.concatenate((back[:, 1:, KnightNumber], [[0.0] * 1] * 8), 0) + \
+            numpy.concatenate(([[0.0] * 8] * 1, left[:-1, :, KnightNumber]), 0) + \
+            numpy.concatenate((left[1:, :, KnightNumber], [[0.0] * 8] * 1), 0) + \
+            numpy.concatenate(([[0.0] * 8] * 1, right[:-1, :, KnightNumber]), 0) + \
+            numpy.concatenate((right[1:, :, KnightNumber], [[0.0] * 8] * 1), 0)
+
+
+    MovedPeices = Same[:, :, KnightNumber] * (1 - moved)
+
+    RemovedPeices = Other * moved
+    AddedPeices = (1 - Same[:, :, KnightNumber]) * (moved)
+
+    return MovedPeices, RemovedPeices, AddedPeices
 
 def goNGenerations(a, b, COLOR, N):
     count = 1
