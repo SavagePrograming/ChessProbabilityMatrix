@@ -21,7 +21,7 @@ def MakeNextBoards(Same, Other, color):
     :param color: True is white, False is black
     :return:
     """
-    PAWNS, ROOKS = True, True
+    PAWNS, ROOKS, KNIGHTS = True, True, True
     pawnMoved, pawnRemoved, pawnAdded = [], [], []
     if PAWNS:
         for i in range(0, 8):
@@ -33,6 +33,7 @@ def MakeNextBoards(Same, Other, color):
         for i in range(0, 8):
             pawnMoved.append(numpy.array([[[0.0]] * 8] * 8))
             pawnAdded.append(numpy.array([[[0.0]] * 8] * 8))
+
     if ROOKS:
         for i in range(8, 10):
             rookMoved_1, rookRemoved_1, rookAdded_1 = getNewRooks(Same, Other, color, i)
@@ -43,17 +44,28 @@ def MakeNextBoards(Same, Other, color):
         for i in range(8, 10):
             pawnMoved.append(numpy.array([[[0.0]] * 8] * 8))
             pawnAdded.append(numpy.array([[[0.0]] * 8] * 8))
+
+    if ROOKS:
+        for i in range(10, 12):
+            rookMoved_1, rookRemoved_1, rookAdded_1 = getNewKnights(Same, Other, color, i)
+            pawnMoved.append(numpy.reshape(rookMoved_1, (8, 8, 1)))
+            pawnRemoved.append(rookRemoved_1)
+            pawnAdded.append(numpy.reshape(rookAdded_1, (8, 8, 1)))
+    else:
+        for i in range(10, 12):
+            pawnMoved.append(numpy.array([[[0.0]] * 8] * 8))
+            pawnAdded.append(numpy.array([[[0.0]] * 8] * 8))
     pawnMoved = numpy.array(pawnMoved)
     pawnAdded = numpy.array(pawnAdded)
     pawnMoved = numpy.concatenate(pawnMoved, 2)
 
-    MovedPeices = numpy.concatenate((pawnMoved, numpy.array([[[0.0] * 6] * 8] * 8)), 2)
+    MovedPeices = numpy.concatenate((pawnMoved, numpy.array([[[0.0] * 4] * 8] * 8)), 2)
     if not sum(sum(sum(MovedPeices))) == 0:
         RemovedPeices = sum(pawnRemoved) / sum(sum(sum(MovedPeices)))
     else:
         RemovedPeices = sum(pawnRemoved) * 0
     pawnAdded = numpy.concatenate(pawnAdded, 2)
-    AddedPeices = numpy.concatenate((pawnAdded, numpy.array([[[0.0] * 6] * 8] * 8)), 2)
+    AddedPeices = numpy.concatenate((pawnAdded, numpy.array([[[0.0] * 4] * 8] * 8)), 2)
     # print AddedPeices.shape
     if not sum(sum(sum(MovedPeices))) == 0:
         MovedPeices /= sum(sum(sum(MovedPeices)))
