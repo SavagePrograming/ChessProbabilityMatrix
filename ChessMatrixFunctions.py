@@ -13,190 +13,6 @@ peices = ["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Rook"
           "Bishop", "Queen", "King"]
 
 
-def MakeStartBoards():
-    """
-    Matrix Format
-            Second index
-          0 1 2 3 4 5 6 7
-    F   0 X O X O X O X O
-    i   1 O X O X O X O X
-    r   2 X O X O X O X O
-    s   3 O X O X O X O X
-    t   4 X O X O X O X O
-        5 O X O X O X O X
-        6 X O X O X O X O
-        7 O X O X O X O X
-
-    then each Square has
-    [Pawn,Pawn,Pawn,Pawn,Pawn,Pawn,Pawn,Pawn,Rook,Rook,Knight,Knight,Bishop,Bishop,Queen,King]
-
-    P = Pawn
-    R = Rook
-    N = Knight
-    B = Bishop
-    Q = Queen
-    K = King
-
-    Initial Setup
-
-
-      0 1 2 3 4 5 6 7
-    0 R N B K Q B N R
-    1 P P P P P P P P
-    2 X O X O X O X O
-    3 O X O X O X O X
-    4 X O X O X O X O
-    5 O X O X O X O X
-    6 P P P P P P P P
-    7 R N B K Q B N R
-
-
-    :return:
-    """
-
-    return numpy.array([[[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]]), \
-           numpy.array([[[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
-
-                        [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0],
-                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]])
-
 
 def MakeNextBoards(Same, Other, color):
     """
@@ -206,35 +22,33 @@ def MakeNextBoards(Same, Other, color):
     :param color: True is white, False is black
     :return:
     """
+    PAWNS,ROOKS = True, True
     pawnMoved, pawnRemoved, pawnAdded = [], [], []
-    for i in range(0, 8):
-        pawnMoved_, pawnRemoved_, pawnAdded_ = getNewPawns(Same, Other, color, i)
-        pawnMoved.append(numpy.reshape(pawnMoved_, (8, 8, 1)))
-        pawnRemoved.append(pawnRemoved_)
-        pawnAdded.append(numpy.reshape(pawnAdded_, (8, 8, 1)))
-
-    for i in range(8, 10):
-        rookMoved_1, rookRemoved_1, rookAdded_1 = getNewRooks(Same, Other, color, i)
-        pawnMoved.append(numpy.reshape(rookMoved_1, (8, 8, 1)))
-        pawnRemoved.append(rookRemoved_1)
-        pawnAdded.append(numpy.reshape(rookAdded_1, (8, 8, 1)))
+    if PAWNS:
+        for i in range(0, 8):
+            pawnMoved_, pawnRemoved_, pawnAdded_ = getNewPawns(Same, Other, color, i)
+            pawnMoved.append(numpy.reshape(pawnMoved_, (8, 8, 1)))
+            pawnRemoved.append(pawnRemoved_)
+            pawnAdded.append(numpy.reshape(pawnAdded_, (8, 8, 1)))
+    else:
+        for i in range(0, 8):
+            pawnMoved.append(numpy.array([[[0.0]] * 8] * 8))
+            pawnAdded.append(numpy.array([[[0.0]] * 8] * 8))
+    if ROOKS:
+        for i in range(8, 10):
+            rookMoved_1, rookRemoved_1, rookAdded_1 = getNewRooks(Same, Other, color, i)
+            pawnMoved.append(numpy.reshape(rookMoved_1, (8, 8, 1)))
+            pawnRemoved.append(rookRemoved_1)
+            pawnAdded.append(numpy.reshape(rookAdded_1, (8, 8, 1)))
+    else:
+        for i in range(8, 10):
+            pawnMoved.append(numpy.array([[[0.0]] * 8] * 8))
+            pawnAdded.append(numpy.array([[[0.0]] * 8] * 8))
     pawnMoved = numpy.array(pawnMoved)
     pawnAdded = numpy.array(pawnAdded)
-    # print "moved"
-    # print "\n".join(
-    #     TensorFuntions.printRecusivlySize(pawnMoved[0],
-    #                                       TensorFuntions.getMaxSizeRecursivly(pawnMoved[0]))[1])
-
-    # print pawnMoved
-    # print Same[:, :, 0]
-    # print (numpy.concatenate(pawnMoved, 2))[:, :, 0]
     pawnMoved = numpy.concatenate(pawnMoved, 2)
 
     MovedPeices = numpy.concatenate((pawnMoved, numpy.array([[[0.0] * 6] * 8] * 8)), 2)
-    # print " =================================== "
-    # print "\n".join(TensorFuntions.printRecusivlySize(MovedPeices, 5)[1])
-    # # print "\n".join(TensorFuntions.printRecusivlySize(MovedPeices[:,:,0], 5)[1])
-    # print sum(sum(MovedPeices[:, :, 0]))
     if not sum(sum(sum(MovedPeices))) == 0:
         RemovedPeices = sum(pawnRemoved) / sum(sum(sum(MovedPeices)))
     else:
@@ -242,28 +56,11 @@ def MakeNextBoards(Same, Other, color):
     pawnAdded = numpy.concatenate(pawnAdded, 2)
     AddedPeices = numpy.concatenate((pawnAdded, numpy.array([[[0.0] * 6] * 8] * 8)), 2)
     # print AddedPeices.shape
-    if not  sum(sum(sum(MovedPeices))) == 0:
+    if not sum(sum(sum(MovedPeices))) == 0:
         MovedPeices /= sum(sum(sum(MovedPeices)))
 
     if not sum(sum(sum(AddedPeices))) == 0:
         AddedPeices /= sum(sum(sum(AddedPeices)))
-
-    # AddedPeices *= 8. - sum(sum((Same * (1 - MovedPeices))[:, :, 0]))
-    # AddedPeices *= sum(sum(sum((1 - Same * (MovedPeices)))))
-    # print " =================================== "
-    # print "\n".join(TensorFuntions.printRecusivlySize(MovedPeices[:, :, 0], 5)[1])
-    # print sum(sum(MovedPeices[:, :, 0]))
-    # print " =================================== "
-    # print "\n".join(TensorFuntions.printRecusivlySize(RemovedPeices[:, :, 0], 3)[1])
-    # print sum(sum(RemovedPeices[:, :, 0]))
-    # print " =================================== "
-    # print "\n".join(TensorFuntions.printRecusivlySize(AddedPeices[:,:,0], 5)[1])
-    # print sum(sum(AddedPeices[:, :, 0]))
-    # print " =================================== "
-    # print "\n".join(TensorFuntions.printRecusivlySize((Same * (1 - MovedPeices))[:, :, 0], 5)[1])
-    # print sum(sum((Same * (1 - MovedPeices))[:, :, 0]))
-    # print " =================================== "
-    # print (Same * (1 - MovedPeices)).sh
 
     return Same - MovedPeices + AddedPeices, Other - RemovedPeices
 
@@ -312,78 +109,52 @@ def getNewPawns(Same, Other, color, PawnNumber):
     return MovedPeices, RemovedPeices, AddedPeices
 
 
-def getNewRooks(Same, Other, color, rookNumber):
-    MovedPeices = []
-    RemovedPeices = []
-    AddedPeices = []
-    for x in range(0,8):
-        MovedPeices.append([])
-        AddedPeices.append([])
-        RemovedPeices.append([])
-        for y in range(0,8):
-            MovedPeices[x].append(0.0)
-            AddedPeices[x].append(0.0)
-            RemovedPeices[x].append([])
-            for i in range(0,16):
-                RemovedPeices[x][y].append(0.0)
+def getOutArray(x, y, xprime, yprime, Same, Other, rookNumber):
+    if abs(y - yprime) > 1:
+        intheway = sum(Same[x, min(y, yprime) + 1:max(y, yprime), :])
+        inthewayOther = sum(Other[x, min(y, yprime) + 1:max(y, yprime), :])
 
+        return TensorFuntions.NegateSum(intheway) * TensorFuntions.NegateSum(inthewayOther) * Same[
+            x, y, rookNumber] * TensorFuntions.NegateSum(Same[x, yprime, :])
+
+    else:
+        if abs(xprime - x) > 1:
+
+            inthewayself = sum(Same[min(x, xprime) + 1:max(x, xprime), y])
+            inthewayOther = sum(Other[min(x, xprime) + 1:max(x, xprime), y])
+
+            return TensorFuntions.NegateSum(inthewayself) * TensorFuntions.NegateSum(inthewayOther) * Same[
+                x, y, rookNumber] * TensorFuntions.NegateSum(Same[xprime, y])
+        else:
+            if abs(xprime - x) == 1:
+                return Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[xprime, y, :])
+            else:
+                return Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[x, yprime, :])
+
+
+def getNewRooks(Same, Other, color, rookNumber):
+    MovedPeices = map(lambda count: map(lambda count: 0.0, xrange(0, 8)), xrange(0, 8))
+    RemovedPeices =  map(lambda count: map(lambda count: map(lambda count: 0.0, xrange(0,16)), xrange(0,8)), xrange(0,8))
+    AddedPeices =  map(lambda count: map(lambda count: 0.0, xrange(0, 8)), xrange(0, 8))
 
     for x in range(0, len(Same)):
         for y in range(0, len(Same[x])):
             for yprime in range(0, len(Same[x])):
                 if yprime != y:
-                    if abs(y - yprime) != 1:
-                        intheway = sum(Same[x, min(y, yprime) + 1:max(y, yprime), :])
-                        inthewayOther = sum(Other[x, min(y, yprime) + 1:max(y, yprime), :])
-
-                        out = TensorFuntions.NegateSum(intheway) *  TensorFuntions.NegateSum(inthewayOther) * Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[x, yprime, :])
-                        # if out > 0:
-                        #     print TensorFuntions.NegateSum(intheway), intheway
-
-                    else:
-
-                        #     print x, yprime, TensorFuntions.NegateSum(Same[x, yprime, :]), Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[x, yprime, :])
-                        out = Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[x, yprime, :])
-                    # print out
-                    # if Same[x, y, rookNumber] > 0:
-                    #     print "(",x, ",", y, "),(",x, ",", yprime, "):",out
+                    out = getOutArray(x, y, x, yprime, Same, Other, rookNumber)
                     MovedPeices[x][y] += out
                     AddedPeices[x][yprime] += out
-                    for i in range(0, 16):
-                        RemovedPeices[x][y][i] = out * Other[x][yprime][i]
+                    RemovedPeices[x][y] = map(lambda other: out * other, Other[x][yprime])
+                    # for i in range(0, 16):
+                    #     RemovedPeices[x][y][i] = out * Other[x][yprime][i]
 
             for xprime in range(0, len(Same)):
                 if x != xprime:
-                    if abs(xprime - x) != 1:
-
-                        inthewayself = sum(Same[min(x, xprime) + 1:max(x, xprime), y])
-                        inthewayOther = sum(Other[min(x, xprime) + 1:max(x, xprime), y])
-
-                        out = TensorFuntions.NegateSum(intheway) * TensorFuntions.NegateSum(inthewayOther) * Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[xprime, y])
-                        # if out != 0:
-                        #     print TensorFuntions.NegateSum(intheway), intheway, TensorFuntions.NegateSum(Same[xprime, y])
-                    else:
-
-                        out = Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[xprime, y, :])
-                        # if out != 0:
-                        #     print Same[x, y, rookNumber], TensorFuntions.NegateSum(Same[xprime, y, :])
-                        # if Same[x, y, rookNumber]  > 0:
-                        #     print xprime,  y, TensorFuntions.NegateSum(Same[xprime, y, :]),  Same[x, y, rookNumber] * TensorFuntions.NegateSum(Same[xprime, y, :])
-                    # print out
-                    # if Same[x, y, rookNumber] > 0:
-                    #     print "(", x, ",", y, "),(", xprime, ",", y, "):", out
+                    out = getOutArray(x, y, xprime, y, Same, Other, rookNumber)
                     MovedPeices[x][y] += out
                     AddedPeices[xprime][y] += out
-                    for i in range(0, 16):
-                        RemovedPeices[x][y][i] = out * Other[xprime][y][i]
-    # print "moved"#, sum(sum(MovedPeices))
-    # print "\n".join(
-    #     TensorFuntions.printRecusivlySize(MovedPeices,
-    #                                       TensorFuntions.getMaxSizeRecursivly(MovedPeices))[1])
-    # print "added"  # , sum(sum(MovedPeices))
-    # print "\n".join(
-    #     TensorFuntions.printRecusivlySize(AddedPeices,
-    #                                       TensorFuntions.getMaxSizeRecursivly(AddedPeices))[1])
+                    RemovedPeices[x][y] = map(lambda other: out * other, Other[xprime][y])
+
     return numpy.array(MovedPeices), numpy.array(RemovedPeices), numpy.array(AddedPeices)
 
 
@@ -398,7 +169,7 @@ def goNGenerations(a, b, COLOR, N):
 
 def goNGenerationsVisual(a, b, COLOR, N, delay, Screen, rate):
     count = 1
-    printTurnStats(a,b,COLOR)
+    printTurnStats(a, b, COLOR)
     while N > count:
         count += 1
         b, a = MakeNextBoards(a, b, COLOR)
@@ -406,7 +177,7 @@ def goNGenerationsVisual(a, b, COLOR, N, delay, Screen, rate):
         if count % rate == 0:
             if delay != 0:
                 pygame.time.delay(delay)
-            printTurnStats(a, b, COLOR)
+            # printTurnStats(a, b, COLOR)
             Draw(a, b, COLOR, Screen)
             pygame.display.flip()
             for event in pygame.event.get():
@@ -463,6 +234,7 @@ def makeScreen():
     Screen.fill([255, 255, 255])
     return Screen
 
+
 def printBoardStats(b):
     print "Pawns"
     print "\n".join(TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(2, 2, b[:, :, :8]),
@@ -475,7 +247,8 @@ def printBoardStats(b):
 
     print sum(sum(sum(b)))
 
-def printTurnStats(a,b,Color):
+
+def printTurnStats(a, b, Color):
     if Color:
         print "--------------- White----------------------"
         printBoardStats(a)
