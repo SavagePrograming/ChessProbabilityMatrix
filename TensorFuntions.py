@@ -28,6 +28,13 @@ def printRecusivly(Array):
             string = map(str, Array)
             return depth, string
 
+def clean(interger):
+    if interger <= 0:
+        return 0.0
+    return round(interger, 5)
+
+cleans = numpy.vectorize(clean)
+
 
 def stringofLength(string, num):
     string = str(string)
@@ -124,6 +131,38 @@ def sumDimentionsInside(start, end, Tensor):
         # print "e", Tensor
         return Tensor
 
+def multiplyDimentions(start, end, Tensor):
+    if start > 0:
+        return numpy.array(map(multiplyDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor))
+    elif end >= 0:
+        return numpy.array(reduce(lambda t1, t2: t1 + t2,
+                                  map(multiplyDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor)))
+    else:
 
-def NegateSum(array):
+        return Tensor
+
+
+def multiplyDimentionsInside(start, end, Tensor):
+    if start > 0:
+        # print "s"
+        return map(multiplyDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor)
+    elif end >= 0:
+        # print "r"
+        # print  map(sumDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor)
+        # print reduce(lambda t1, t2: t1 + t2, map(sumDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor))
+        return reduce(lambda t1, t2: t1 * t2,
+                      map(multiplyDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor))
+    else:
+        # print "e", Tensor
+        return Tensor
+
+
+def NegateProduct(array):
     return reduce(lambda product, item: (1.0 - item) * product, array, 1.0)
+
+
+def MultiplyTogether(ArrayOne, ArrayTwo):
+    if (isinstance(ArrayOne, list) or isinstance(ArrayOne, numpy.ndarray)) and (isinstance(ArrayTwo, list) or isinstance(ArrayTwo, numpy.ndarray)):
+        return map(MultiplyTogether, ArrayOne, ArrayTwo)
+    else:
+        return ArrayTwo * ArrayOne

@@ -7,10 +7,10 @@ for x in [0, 1, 2, 3, 4, 5, 6, 7]:
         array.append([x, y])
 
 # a, b = BoardMakers.makeBoards([["Q", array]], [])
-a, b =  BoardMakers.MakeStartBoards()
+a, b =  BoardMakers.MakeEmptyBoards()
 # a[1][0][0] = 0.0
-# a[2][0][0] = 1.0
-
+a[3][3][14] = 1.0
+# b[4][4][10] = 1.0
 
 # print a
 # print b
@@ -24,7 +24,7 @@ a, b =  BoardMakers.MakeStartBoards()
 # print TensorFuntions.sumDimentions(2,2,a)
 
 IN = 100
-delay = 0
+delay = 10
 rate = 1
 print rate
 
