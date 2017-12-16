@@ -7,9 +7,11 @@ for x in [0, 1, 2, 3, 4, 5, 6, 7]:
         array.append([x, y])
 
 # a, b = BoardMakers.makeBoards([["Q", array]], [])
-a, b =  BoardMakers.MakeEmptyBoards()
+a, b =  BoardMakers.MakeStartBoards()
 # a[1][0][0] = 0.0
-a[3][3][14] = 1.0
+# a[0][0][0] = .5
+# a[1][7][14] = 1.0
+# a[0][7][8] = 1.0
 # b[4][4][10] = 1.0
 
 # print a
