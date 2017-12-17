@@ -271,7 +271,7 @@ def goNGenerations(a, b, COLOR, N):
 
 def goNGenerationsVisual(a, b, COLOR, N, delay, Screen, rate):
     count = 1
-    printTurnStats(a, b, COLOR)
+    # printTurnStats(a, b, COLOR)
     while N > count:
         count += 1
         b, a = MakeNextBoards(a, b, COLOR)
@@ -279,7 +279,7 @@ def goNGenerationsVisual(a, b, COLOR, N, delay, Screen, rate):
         if count % rate == 0:
             if delay != 0:
                 pygame.time.delay(delay)
-            printTurnStats(a, b, COLOR)
+            # printTurnStats(a, b, COLOR)
             Draw(a, b, COLOR, Screen)
             pygame.display.flip()
             for event in pygame.event.get():

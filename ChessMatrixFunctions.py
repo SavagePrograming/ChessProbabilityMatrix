@@ -15,59 +15,44 @@ peices = ["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Rook"
 
 def MakeNextBoards(Same, Other, color):
     # print numpy.array(getPawnMoves(Same, Other, color, 0)).shape
-    newSame = numpy.array([[[0.0]*16]*8]*8)
-    MOVES = []
-    # moves2dif = TensorFuntions.sumDimentions(2, 2, Same)
-    MOVES.append(numpy.reshape(getPawnMoves(Same, Other, color, 0),  (8, 8, 8, 8, 1)))
-    # testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getPawnMoves(Same, Other, color, 1),  (8, 8, 8, 8, 1)))
-    # testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getPawnMoves(Same, Other, color, 2),  (8, 8, 8, 8, 1)))
-    # testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getPawnMoves(Same, Other, color, 3),  (8, 8, 8, 8, 1)))
-    # testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getPawnMoves(Same, Other, color, 4),  (8, 8, 8, 8, 1)))
-    # testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getPawnMoves(Same, Other, color, 5),  (8, 8, 8, 8, 1)))
-    # testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getPawnMoves(Same, Other, color, 6),  (8, 8, 8, 8, 1)))
-    # testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getPawnMoves(Same, Other, color, 7),  (8, 8, 8, 8, 1)))
-    # testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getRookMoves(Same, Other, color, 8),  (8, 8, 8, 8, 1)))
-    #testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getRookMoves(Same, Other, color, 9),  (8, 8, 8, 8, 1)))
-    #testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getKnightMoves(Same, Other, color, 10),  (8, 8, 8, 8, 1)))
-    #testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getKnightMoves(Same, Other, color, 11),  (8, 8, 8, 8, 1)))
-    #testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getBishopMoves(Same, Other, color, 12),  (8, 8, 8, 8, 1)))
-    #testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getBishopMoves(Same, Other, color, 13),  (8, 8, 8, 8, 1)))
-    #testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getQueenMoves(Same, Other, color, 14),  (8, 8, 8, 8, 1)))
-    # testDif(moves2dif, Same)
-    MOVES.append(numpy.reshape(getKingMoves(Same, Other, color, 15),  (8, 8, 8, 8, 1)))
+    newSame = numpy.array([[[0.0] * 16] * 8] * 8)
+    MOVES = [numpy.reshape(getPawnMoves(Same, Other, color, 0), (8, 8, 8, 8, 1)),
+             numpy.reshape(getPawnMoves(Same, Other, color, 1), (8, 8, 8, 8, 1)),
+             numpy.reshape(getPawnMoves(Same, Other, color, 2), (8, 8, 8, 8, 1)),
+             numpy.reshape(getPawnMoves(Same, Other, color, 3), (8, 8, 8, 8, 1)),
+             numpy.reshape(getPawnMoves(Same, Other, color, 4), (8, 8, 8, 8, 1)),
+             numpy.reshape(getPawnMoves(Same, Other, color, 5), (8, 8, 8, 8, 1)),
+             numpy.reshape(getPawnMoves(Same, Other, color, 6), (8, 8, 8, 8, 1)),
+             numpy.reshape(getPawnMoves(Same, Other, color, 7), (8, 8, 8, 8, 1)),
+             numpy.reshape(getRookMoves(Same, Other, color, 8), (8, 8, 8, 8, 1)),
+             numpy.reshape(getRookMoves(Same, Other, color, 9), (8, 8, 8, 8, 1)),
+             numpy.reshape(getKnightMoves(Same, Other, color, 10), (8, 8, 8, 8, 1)),
+             numpy.reshape(getKnightMoves(Same, Other, color, 11), (8, 8, 8, 8, 1)),
+             numpy.reshape(getBishopMoves(Same, Other, color, 12), (8, 8, 8, 8, 1)),
+             numpy.reshape(getBishopMoves(Same, Other, color, 13), (8, 8, 8, 8, 1)),
+             numpy.reshape(getQueenMoves(Same, Other, color, 14), (8, 8, 8, 8, 1)),
+             numpy.reshape(getKingMoves(Same, Other, color, 15), (8, 8, 8, 8, 1))]
     # testDif(moves2dif, Same)
     MOVES = numpy.concatenate(MOVES, 4)
     # print sum(sum(sum(sum(sum(MOVES)))))
-    print "inside1\n" + "\n".join(
-        TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(0, 1, TensorFuntions.sumDimentions(4, 4, MOVES)),
-                                          TensorFuntions.getMaxSizeRecursivly(
-                                              TensorFuntions.sumDimentions(0, 1,
-                                                                           TensorFuntions.sumDimentions(4,
-                                                                                                        4,
-                                                                                                        MOVES))))[1])
-    MOVES, newSame= condenceMoves(MOVES, Same, newSame)
-    print "inside2\n" + "\n".join(
-        TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(0, 1, TensorFuntions.sumDimentions(4, 4, MOVES)),
-                                          TensorFuntions.getMaxSizeRecursivly(
-                                              TensorFuntions.sumDimentions(0, 1,
-                                                                           TensorFuntions.sumDimentions(4,
-                                                                                                        4,
-                                                                                                        MOVES))))[1])
-    # NEXT = [numpy.reshape(getPawnNext(Same, Other, color, MOVES, 0), (8, 8, 1)),
+    # print "inside1\n" + "\n".join(
+    #     TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(0, 1, TensorFuntions.sumDimentions(4, 4, MOVES)),
+    #                                       TensorFuntions.getMaxSizeRecursivly(
+    #                                           TensorFuntions.sumDimentions(0, 1,
+    #                                                                        TensorFuntions.sumDimentions(4,
+    #                                                                                                     4,
+    #                                                                                                     MOVES))))[1])
+    MOVES, newSame = condenceMoves(MOVES, Same, newSame)
+
+    REMOVES = adjustForPawnTaking(Same, MOVES)
+    # print "inside2\n" + "\n".join(
+    #     TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(0, 1, TensorFuntions.sumDimentions(4, 4, MOVES)),
+    #                                       TensorFuntions.getMaxSizeRecursivly(
+    #                                           TensorFuntions.sumDimentions(0, 1,
+    #                                                                        TensorFuntions.sumDimentions(4,
+    #                                                                                                     4,
+    #                                                                                                     MOVES))))[1])
+    # # NEXT = [numpy.reshape(getPawnNext(Same, Other, color, MOVES, 0), (8, 8, 1)),
     #          numpy.reshape(getPawnNext(Same, Other, color, MOVES, 1), (8, 8, 1)),
     #          numpy.reshape(getPawnNext(Same, Other, color, MOVES, 2), (8, 8, 1)),
     #          numpy.reshape(getPawnNext(Same, Other, color, MOVES, 3), (8, 8, 1)),
@@ -88,7 +73,8 @@ def MakeNextBoards(Same, Other, color):
 
 
 
-    return newSame +  TensorFuntions.sumDimentions(0, 1, MOVES), Other  # numpy.array(TensorFuntions.MultiplyTogether(Other, 1 - RemovedPeices))
+    return newSame + TensorFuntions.sumDimentions(0, 1, MOVES), Other * (1 - TensorFuntions.sumDimentions(0, 1, REMOVES)) # numpy.array(TensorFuntions.MultiplyTogether(Other, 1 - RemovedPeices))
+
 
 # def testDif(moves2dif, Same):
 #     moves2dif_ = TensorFuntions.sumDimentions(2, 2, Same)
@@ -107,15 +93,24 @@ def condenceMoves(MOVES, Same, newSame):
             for x in range(0, 8):
                 for y in range(0, 8):
                     if (Same[x][y][Number] > 0):
-                        MOVES2[x,y,:,:,Number] = MOVES[x,y,:,:,Number] / (sum(sum(MOVES[x, y, :, :, Number])) / Same[x][y][Number] + OTHERS)
-                        newSame[x][y][Number] += (Same[x][y][Number]) * (OTHERS) / (
-                        sum(sum(MOVES[x, y, :, :, Number])) / Same[x][y][Number] + OTHERS)
+                        if sum(sum(MOVES[x, y, :, :, Number])) > 0:
+                            MOVES2[x, y, :, :, Number] = MOVES[x, y, :, :, Number] / (
+                            sum(sum(MOVES[x, y, :, :, Number])) / Same[x][y][Number] + OTHERS)
+                            # print "inside2\n" + "\n".join(
+                            #     TensorFuntions.printRecusivlySize(MOVES[x, y, :, :, Number],
+                            #                                       TensorFuntions.getMaxSizeRecursivly(MOVES[x, y, :, :, Number]))[1])
+                            # print "divide", (sum(sum(MOVES[x, y, :, :, Number])) / Same[x][y][Number] + OTHERS)
+                            newSame[x][y][Number] += (Same[x][y][Number]) * (OTHERS) / (
+                                sum(sum(MOVES[x, y, :, :, Number])) / Same[x][y][Number] + OTHERS)
+                        else:
+                            newSame[x][y][Number] += Same[x][y][Number]
         # print "Compare", SUM, TOTAL
         return MOVES2, newSame
     else:
         return MOVES, Same
+
+
 def getPawnMoves(Same, Other, color, Number):
-    
     array = numpy.array([[[[0.0] * 8] * 8] * 8] * 8)
     # moved = numpy.concatenate(([[0.0] * 8], Same[:-1, :, Number]), 0)
     # taking = numpy.concatenate((moved[:, 1:], [[0.0]] * 8), 1) + \
@@ -134,6 +129,8 @@ def getPawnMoves(Same, Other, color, Number):
                     if y - 1 >= 0:
                         # print x + 1, y - 1
                         array[x][y][x + 1][y] += (1 - OtherSumed[x + 1][y - 1]) * Same[x][y][Number]
+                if x == 1:
+                    array[x][y][x + 2][y] += OtherSumed[x + 2][y] * SameSumed[x + 2][y] * Same[x][y][Number]
         return array
     else:
         for x in range(0, 8):
@@ -147,7 +144,10 @@ def getPawnMoves(Same, Other, color, Number):
                     if y - 1 >= 0:
                         # print x - 1, y - 1
                         array[x][y][x - 1][y - 1] += (1 - OtherSumed[x - 1][y - 1]) * Same[x][y][Number]
+                if x == 6:
+                    array[x][y][x - 2][y] += OtherSumed[x - 2][y] * SameSumed[x - 2][y] * Same[x][y][Number]
         return array
+
 
 def getKnightMoves(Same, Other, color, Number):
     array = numpy.array([[[[0.0] * 8] * 8] * 8] * 8)
@@ -158,6 +158,7 @@ def getKnightMoves(Same, Other, color, Number):
                 if 7 >= y + mod[1] >= 0 and 7 >= x + mod[0] >= 0:
                     array[x][y][x + mod[0]][y + mod[1]] += SameSumed[x + mod[0]][y + mod[1]] * Same[x][y][Number]
     return array
+
 
 def getRookMoves(Same, Other, color, Number):
     array = numpy.array([[[[0.0] * 8] * 8] * 8] * 8)
@@ -180,7 +181,6 @@ def getRookMoves(Same, Other, color, Number):
                 total *= (OtherSumed[x - x_shift][y])
                 x_shift += 1
 
-
             y_shift = 1
             total = 1
             while y_shift + y < 8:
@@ -191,11 +191,12 @@ def getRookMoves(Same, Other, color, Number):
             y_shift = 1
             total = 1
             while y - y_shift >= 0:
-                total *= (SameSumed[x][y - y_shift ])
+                total *= (SameSumed[x][y - y_shift])
                 array[x][y][x][y - y_shift] += total * Same[x][y][Number]
-                total *= (OtherSumed[x][y - y_shift ])
+                total *= (OtherSumed[x][y - y_shift])
                 y_shift += 1
     return array
+
 
 def getBishopMoves(Same, Other, color, Number):
     array = numpy.array([[[[0.0] * 8] * 8] * 8] * 8)
@@ -227,12 +228,13 @@ def getBishopMoves(Same, Other, color, Number):
                 shift += 1
             shift = 1
             total = 1
-            while y - shift >= 0  and x - shift >= 0:
-                total *= (SameSumed[x- shift][y - shift])
+            while y - shift >= 0 and x - shift >= 0:
+                total *= (SameSumed[x - shift][y - shift])
                 array[x][y][x - shift][y - shift] += total * Same[x][y][Number]
                 total *= (OtherSumed[x - shift][y - shift])
                 shift += 1
     return array
+
 
 def getKingMoves(Same, Other, color, Number):
     array = numpy.array([[[[0.0] * 8] * 8] * 8] * 8)
@@ -243,6 +245,7 @@ def getKingMoves(Same, Other, color, Number):
                 if 7 >= y + mod[1] >= 0 and 7 >= x + mod[0] >= 0:
                     array[x][y][x + mod[0]][y + mod[1]] += SameSumed[x + mod[0]][y + mod[1]] * Same[x][y][Number]
     return array
+
 
 def getQueenMoves(Same, Other, color, Number):
     array = numpy.array([[[[0.0] * 8] * 8] * 8] * 8)
@@ -310,36 +313,16 @@ def getQueenMoves(Same, Other, color, Number):
                 shift += 1
     return array
 
-def getPawnNext(Same, Other, color, MOVES, TOTAL, Number):
 
-    return Same[:,:, Number]
+def adjustForPawnTaking(Same, MOVES):
+    MOVES2 = MOVES.copy()
+    for x in range(0, 8):
+        for y in range(0, 8):
+            for Number in range(0, 8):
+                if Same[x][y][Number] > 0:
+                    MOVES2[x][y][x][y][Number] = 0.0
+    return MOVES2
 
-def getKnightNext(Same, Other, color, MOVES, Number):
-    movedh = numpy.concatenate(([[0.0] * 8], Same[:-1, :, Number]), 0) + numpy.concatenate((Same[1:, :, Number], [[0.0] * 8]), 0)
-    movedv = numpy.concatenate((Same[:, 1:, Number], [[0.0]] * 8), 1) + \
-                 numpy.concatenate(([[0.0]] * 8, Same[:, :-1, Number]), 1)
-    moved = numpy.concatenate((movedh[:, 2:], [[0.0] * 2] * 8), 1) + \
-            numpy.concatenate(([[0.0] * 2] * 8, movedh[:, :-2]), 1) + \
-            numpy.concatenate(([[0.0] * 8]* 2, movedv[:-2, :]), 0) + \
-            numpy.concatenate((movedv[2:, :], [[0.0] * 8]* 2), 0)
-    SameSumed = TensorFuntions.multiplyDimentions(2, 2, 1 - Same)
-    return Same[:,:, Number]
-
-def getRookNext(Same, Other, color, MOVES, Number):
-    moved = numpy.concatenate(([[0.0] * 8], Same[:-1, :, Number]), 0)
-    return Same[:,:, Number]
-
-def getBishopNext(Same, Other, color, MOVES, Number):
-    moved = numpy.concatenate(([[0.0] * 8], Same[:-1, :, Number]), 0)
-    return Same[:,:, Number]
-
-def getKingNext(Same, Other, color, MOVES, Number):
-    moved = numpy.concatenate(([[0.0] * 8], Same[:-1, :, Number]), 0)
-    return Same[:,:, Number]
-
-def getQueenNext(Same, Other, color, MOVES, Number):
-    moved = numpy.concatenate(([[0.0] * 8], Same[:-1, :, Number]), 0)
-    return Same[:,:, Number]
 
 def getOutArray(x, y, xprime, yprime, Same, Other, rookNumber):
     if abs(y - yprime) > 1:
@@ -364,7 +347,6 @@ def getOutArray(x, y, xprime, yprime, Same, Other, rookNumber):
                 return Same[x, y, rookNumber] * TensorFuntions.NegateProduct(Same[x, yprime, :])
 
 
-
 def goNGenerations(a, b, COLOR, N):
     count = 1
     while N > count:
@@ -376,7 +358,7 @@ def goNGenerations(a, b, COLOR, N):
 
 def goNGenerationsVisual(a, b, COLOR, N, delay, Screen, rate):
     count = 1
-    printTurnStats(a, b, COLOR)
+    # printTurnStats(a, b, COLOR)
     while N > count:
         count += 1
         b, a = MakeNextBoards(a, b, COLOR)
@@ -384,7 +366,7 @@ def goNGenerationsVisual(a, b, COLOR, N, delay, Screen, rate):
         if count % rate == 0:
             if delay != 0:
                 pygame.time.delay(delay)
-            printTurnStats(a, b, COLOR)
+            # printTurnStats(a, b, COLOR)
             Draw(a, b, COLOR, Screen)
             pygame.display.flip()
             for event in pygame.event.get():
@@ -408,18 +390,6 @@ def Draw(Same, Other, COLOR, Screen):
                 else:
                     drawSquare(x, y, p, Same[y][x][10 + p], not COLOR, Screen)
                     drawSquare(x, y, p, Other[y][x][10 + p], COLOR, Screen)
-                    # map(map, [map] * 8, [[map] * 8] * 8, [[[drawSquare] * 6] * 8] * 8,
-                    #     [[[0] * 6] * 8, [[1] * 6] * 8, [[2] * 6] * 8, [[3] * 6] * 8, [[4] * 6] * 8, [[5] * 6] * 8, [[6] * 6] * 8,
-                    #      [[7] * 6] * 8],
-                    #     [[[0] * 6, [1] * 6, [2] * 6, [3] * 6, [4] * 6, [5] * 6, [6] * 6, [7] * 6]] * 8,
-                    #     [[[0, 1, 2, 2, 4, 5]] * 8] * 8, Same, [[[COLOR] * 6] * 8] * 8, [[[Screen] * 6] * 8] * 8)
-                    #
-                    # map(map, [map] * 8, [[map] * 8] * 8, [[[drawSquare] * 6] * 8] * 8,
-                    #     [[[0] * 6] * 8, [[1] * 6] * 8, [[2] * 6] * 8, [[3] * 6] * 8, [[4] * 6] * 8, [[5] * 6] * 8, [[6] * 6] * 8,
-                    #      [[7] * 6] * 8],
-                    #     [[[0] * 6, [1] * 6, [2] * 6, [3] * 6, [4] * 6, [5] * 6, [6] * 6, [7] * 6]] * 8,
-                    #     [[[0, 1, 2, 2, 4, 5]] * 8] * 8, Other, [[[not COLOR] * 6] * 8] * 8, [[[Screen] * 6] * 8] * 8)
-
 
 def drawSquare(x, y, p, opacity, COLOR, Screen):
     if not COLOR:
@@ -443,27 +413,18 @@ def makeScreen():
 
 
 def printBoardStats(b):
-    # print "Pawns"
-    # print "\n".join(TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(2, 2, b[:, :, :8]),
-    #                                                   TensorFuntions.getMaxSizeRecursivly(
-    #                                                       TensorFuntions.sumDimentions(2, 2, b[:, :, :8])))[1])
-    # print "Rooks"
-    # print "\n".join(TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(2, 2, b[:, :, 8:10]),
-    #                                                   TensorFuntions.getMaxSizeRecursivly(
-    #                                                       TensorFuntions.sumDimentions(2, 2, b[:, :, 8:10])))[1])
     print "Board"
     print "\n".join(TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(2, 2, b[:, :, :]),
                                                       TensorFuntions.getMaxSizeRecursivly(
                                                           TensorFuntions.sumDimentions(2, 2, b[:, :, :])))[1])
 
-    print sum(sum(sum(b)))
-    print sum(sum(sum(b[:,:,0:8])))
-    print sum(sum(sum(b[:,:,8:10])))
-    print sum(sum(sum(b[:,:,10:12])))
-    print sum(sum(sum(b[:,:,12:14])))
-    print sum(sum(b[:,:,14]))
-    print sum(sum(b[:,:,15]))
-
+    print "Total Peices:", sum(sum(sum(b)))
+    print "Pawns", sum(sum(sum(b[:, :, 0:8])))
+    print "Rooks", sum(sum(sum(b[:, :, 8:10])))
+    print "Knights", sum(sum(sum(b[:, :, 10:12])))
+    print "Bishops", sum(sum(sum(b[:, :, 12:14])))
+    print "Queens", sum(sum(b[:, :, 14]))
+    print "Kings", sum(sum(b[:, :, 15]))
 
 
 def printTurnStats(a, b, Color):
@@ -477,3 +438,7 @@ def printTurnStats(a, b, Color):
         # printBoardStats(b)
         print "------------------Black------------------"
         printBoardStats(a)
+
+
+def calcStats(Same, Other, Color):
+    pass
