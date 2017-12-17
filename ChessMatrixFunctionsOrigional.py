@@ -2,9 +2,9 @@ import numpy, TensorFuntions, pygame
 
 board = pygame.image.load('pictures/chess2.jpg')
 imagelocwhite = ['pictures/pawn.png', 'pictures/rook.png', 'pictures/knight.png',
-                 'pictures/bishup.png', 'pictures/queen.png', 'pictures/king.png']
+                 'pictures/bishop.png', 'pictures/queen.png', 'pictures/king.png']
 imagelocblack = ['pictures/bpawn.png', 'pictures/brook.png', 'pictures/bknight.png',
-                 'pictures/bbishup.png', 'pictures/bqueen.png', 'pictures/bking.png']
+                 'pictures/bbishop.png', 'pictures/bqueen.png', 'pictures/bking.png']
 
 imagesWhite = map(pygame.image.load, imagelocwhite)
 imagesBlack = map(pygame.image.load, imagelocblack)
