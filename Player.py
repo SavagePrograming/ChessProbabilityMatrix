@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 import Functions
 
@@ -8,7 +9,7 @@ class Player:
         self.board = board
 
     def runTurn(self, Color):
-        pass
+        return Color
 
     def handleEvents(self, Events, turn):
         for event in Events:
@@ -85,71 +86,8 @@ class Player:
                     ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     Functions.create(self.board, loc, color, Type, intNumber2)
             ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            # If the mouse is pressed
-            ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                x = 'a'
-                y = 0
-                ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                # if a piece has already been selected
-                ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                if Functions.hasSelected(self.board):
-                    ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                    # Sets variables to location of mouse
-                    ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                    mousex, mousey = event.pos
-                    ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                    # Determines squares name based on location
-                    ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                    if mousex < 50:
-                        x = 'a'
-                    elif mousex < 100:
-                        x = 'b'
-                    elif mousex < 150:
-                        x = 'c'
-                    elif mousex < 200:
-                        x = 'd'
-                    elif mousex < 250:
-                        x = 'e'
-                    elif mousex < 300:
-                        x = 'f'
-                    elif mousex < 350:
-                        x = 'g'
-                    elif mousex < 400:
-                        x = 'h'
-                    y = int(mousey / 50) + 1
-                    name2 = x + str(y)
-
-                    if Functions.getSelected(self.board).str_Name == name2:
-                        for sq in self.board.array_square_Squares:
-                            sq.selected = False
-                else:
-                    mousex, mousey = event.pos
-                    if mousex < 50:
-                        x = 'a'
-                    elif mousex < 100:
-                        x = 'b'
-                    elif mousex < 150:
-                        x = 'c'
-                    elif mousex < 200:
-                        x = 'd'
-                    elif mousex < 250:
-                        x = 'e'
-                    elif mousex < 300:
-                        x = 'f'
-                    elif mousex < 350:
-                        x = 'g'
-                    elif mousex < 400:
-                        x = 'h'
-                    y = int(mousey / 50) + 1
-                    name1 = x + str(y)
-                    for sq in self.board.array_square_Squares:
-                        if sq.name == name1:
-                            sq.selected = True
-                    continue
-            ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             # If exit was hit then stop
             ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             if event.type == pygame.QUIT:
-                true = True
+                sys.exit(0)
         return turn

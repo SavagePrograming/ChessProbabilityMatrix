@@ -135,7 +135,7 @@ def multiplyDimentions(start, end, Tensor):
     if start > 0:
         return numpy.array(map(multiplyDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor))
     elif end >= 0:
-        return numpy.array(reduce(lambda t1, t2: t1 + t2,
+        return numpy.array(reduce(lambda t1, t2: t1 * t2,
                                   map(multiplyDimentionsInside, [start - 1] * len(Tensor), [end - 1] * len(Tensor), Tensor)))
     else:
 

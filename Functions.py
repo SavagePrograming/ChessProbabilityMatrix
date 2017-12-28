@@ -6,6 +6,7 @@
 import pygame
 
 import PlayerHumanGui
+import PlayerMatrixAI
 import Square
 import Board
 import Move
@@ -17,18 +18,18 @@ def setUpHuman(whichPlayer, board):
     return PlayerHumanGui.PlayerHumanGui(Name, board)
 
 def setUpAI(board):
-    return None
+    return PlayerMatrixAI.PlayerMatrixAI(board, 10)
 
 
 def hasSelected(board):
     for sq in board.array_square_Squares:
-        if sq.selected:
+        if sq.bol_Selected:
             return True
     return False
 
 def getSelected(board):
     for sq in board.array_square_Squares:
-        if sq.selected:
+        if sq.bol_Selected:
             return sq
     return None
 

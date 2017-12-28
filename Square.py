@@ -211,6 +211,7 @@ class Square(pygame.sprite.Sprite):
 
             def test3(number):
                 test = 1
+                # print y
                 for row in b:
                     if (x > row[y].int_X > number or x < row[y].int_X < number) and not row[y].surface_Image == 0:
                         test = 0

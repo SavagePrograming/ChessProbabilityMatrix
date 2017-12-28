@@ -35,7 +35,7 @@ def MakeNextBoards(Same, Other, color):
     # testDif(moves2dif, Same)
     MOVES = numpy.concatenate(MOVES, 4)
     # print sum(sum(sum(sum(sum(MOVES)))))
-    # print "inside1\n" + "\n".join(
+    # print "inside1 " + str(color) + "\n" + "\n".join(
     #     TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(0, 1, TensorFuntions.sumDimentions(4, 4, MOVES)),
     #                                       TensorFuntions.getMaxSizeRecursivly(
     #                                           TensorFuntions.sumDimentions(0, 1,
@@ -45,13 +45,11 @@ def MakeNextBoards(Same, Other, color):
     MOVES, newSame = condenceMoves(MOVES, Same, newSame)
 
     REMOVES = adjustForPawnTaking(Same, MOVES)
-    # print "inside2\n" + "\n".join(
-    #     TensorFuntions.printRecusivlySize(TensorFuntions.sumDimentions(0, 1, TensorFuntions.sumDimentions(4, 4, MOVES)),
-    #                                       TensorFuntions.getMaxSizeRecursivly(
-    #                                           TensorFuntions.sumDimentions(0, 1,
-    #                                                                        TensorFuntions.sumDimentions(4,
-    #                                                                                                     4,
-    #                                                                                                     MOVES))))[1])
+
+
+    # NEXT =
+    # print "inside2\n" + "\n".join(TensorFuntions.printRecusivlySize(NEXT,
+    #                                       TensorFuntions.getMaxSizeRecursivly(NEXT))[1])
     # # NEXT = [numpy.reshape(getPawnNext(Same, Other, color, MOVES, 0), (8, 8, 1)),
     #          numpy.reshape(getPawnNext(Same, Other, color, MOVES, 1), (8, 8, 1)),
     #          numpy.reshape(getPawnNext(Same, Other, color, MOVES, 2), (8, 8, 1)),
@@ -73,7 +71,9 @@ def MakeNextBoards(Same, Other, color):
 
 
 
-    return newSame + TensorFuntions.sumDimentions(0, 1, MOVES), Other * (1 - TensorFuntions.sumDimentions(0, 1, REMOVES)) # numpy.array(TensorFuntions.MultiplyTogether(Other, 1 - RemovedPeices))
+    return newSame + TensorFuntions.sumDimentions(0, 1, MOVES), numpy.array(TensorFuntions.MultiplyTogether(
+        TensorFuntions.multiplyDimentions(0, 1, TensorFuntions.multiplyDimentions(4, 4, 1 - REMOVES)), Other))
+    # Other * ()  # numpy.array(TensorFuntions.MultiplyTogether(Other, 1 - RemovedPeices))
 
 
 # def testDif(moves2dif, Same):
@@ -95,7 +95,7 @@ def condenceMoves(MOVES, Same, newSame):
                     if (Same[x][y][Number] > 0):
                         if sum(sum(MOVES[x, y, :, :, Number])) > 0:
                             MOVES2[x, y, :, :, Number] = MOVES[x, y, :, :, Number] / (
-                            sum(sum(MOVES[x, y, :, :, Number])) / Same[x][y][Number] + OTHERS)
+                                sum(sum(MOVES[x, y, :, :, Number])) / Same[x][y][Number] + OTHERS)
                             # print "inside2\n" + "\n".join(
                             #     TensorFuntions.printRecusivlySize(MOVES[x, y, :, :, Number],
                             #                                       TensorFuntions.getMaxSizeRecursivly(MOVES[x, y, :, :, Number]))[1])
@@ -121,14 +121,14 @@ def getPawnMoves(Same, Other, color, Number):
         for x in range(0, 8):
             for y in range(0, 8):
                 if x + 1 < 8 and Same[x][y][Number] > 0:
-                    # print x + 1, y
+                    # print "B:",x + 1, y,  (1 - OtherSumed[x + 1][y + 1]) * Same[x][y][Number]
                     array[x][y][x + 1][y] += OtherSumed[x + 1][y] * SameSumed[x + 1][y] * Same[x][y][Number]
                     if y + 1 < 8:
-                        # print x + 1, y + 1
-                        array[x][y][x + 1][y] += (1 - OtherSumed[x + 1][y + 1]) * Same[x][y][Number]
+                        # print "B:",x + 1, y + 1,  (1 - OtherSumed[x + 1][y + 1]) * Same[x][y][Number]
+                        array[x][y][x + 1][y + 1] += (1 - OtherSumed[x + 1][y + 1]) * Same[x][y][Number]
                     if y - 1 >= 0:
-                        # print x + 1, y - 1
-                        array[x][y][x + 1][y] += (1 - OtherSumed[x + 1][y - 1]) * Same[x][y][Number]
+                        # print "B:",x + 1, y - 1, (1 - OtherSumed[x + 1][y - 1]) * Same[x][y][Number]
+                        array[x][y][x + 1][y - 1] += (1 - OtherSumed[x + 1][y - 1]) * Same[x][y][Number]
                 if x == 1:
                     array[x][y][x + 2][y] += OtherSumed[x + 2][y] * SameSumed[x + 2][y] * Same[x][y][Number]
         return array
@@ -136,13 +136,13 @@ def getPawnMoves(Same, Other, color, Number):
         for x in range(0, 8):
             for y in range(0, 8):
                 if x - 1 >= 0 and Same[x][y][Number] > 0:
-                    # print x - 1, y
+                    # print "w", x - 1, y
                     array[x][y][x - 1][y] += OtherSumed[x - 1][y] * SameSumed[x - 1][y] * Same[x][y][Number]
                     if y + 1 < 8:
-                        # print x - 1, y + 1
+                        # print "w", x - 1, y + 1, (1 - OtherSumed[x - 1][y + 1]) * Same[x][y][Number]
                         array[x][y][x - 1][y + 1] += (1 - OtherSumed[x - 1][y + 1]) * Same[x][y][Number]
                     if y - 1 >= 0:
-                        # print x - 1, y - 1
+                        # print "w", x - 1, y - 1, (1 - OtherSumed[x - 1][y - 1]) * Same[x][y][Number]
                         array[x][y][x - 1][y - 1] += (1 - OtherSumed[x - 1][y - 1]) * Same[x][y][Number]
                 if x == 6:
                     array[x][y][x - 2][y] += OtherSumed[x - 2][y] * SameSumed[x - 2][y] * Same[x][y][Number]
@@ -320,7 +320,10 @@ def adjustForPawnTaking(Same, MOVES):
         for y in range(0, 8):
             for Number in range(0, 8):
                 if Same[x][y][Number] > 0:
-                    MOVES2[x][y][x][y][Number] = 0.0
+                    if x > 0:
+                        MOVES2[x][y][x - 1][y][Number] = 0.0
+                    if x < 7:
+                        MOVES2[x][y][x + 1][y][Number] = 0.0
     return MOVES2
 
 
@@ -358,7 +361,7 @@ def goNGenerations(a, b, COLOR, N):
 
 def goNGenerationsVisual(a, b, COLOR, N, delay, Screen, rate):
     count = 1
-    # printTurnStats(a, b, COLOR)
+    printTurnStats(a, b, COLOR)
     while N > count:
         count += 1
         b, a = MakeNextBoards(a, b, COLOR)
@@ -366,7 +369,7 @@ def goNGenerationsVisual(a, b, COLOR, N, delay, Screen, rate):
         if count % rate == 0:
             if delay != 0:
                 pygame.time.delay(delay)
-            # printTurnStats(a, b, COLOR)
+            printTurnStats(a, b, COLOR)
             Draw(a, b, COLOR, Screen)
             pygame.display.flip()
             for event in pygame.event.get():
@@ -390,6 +393,7 @@ def Draw(Same, Other, COLOR, Screen):
                 else:
                     drawSquare(x, y, p, Same[y][x][10 + p], not COLOR, Screen)
                     drawSquare(x, y, p, Other[y][x][10 + p], COLOR, Screen)
+
 
 def drawSquare(x, y, p, opacity, COLOR, Screen):
     if not COLOR:
@@ -440,5 +444,633 @@ def printTurnStats(a, b, Color):
         printBoardStats(a)
 
 
-def calcStats(Same, Other, Color):
-    pass
+def calcStats(Same, Other):
+    return [sum(sum(sum(Same))), sum(sum(sum(Same[:, :, 0:8]))), sum(sum(sum(Same[:, :, 8:10]))),
+            sum(sum(sum(Same[:, :, 10:12]))), sum(sum(sum(Same[:, :, 12:14]))),
+            sum(sum(Same[:, :, 14])), sum(sum(Same[:, :, 15]))], \
+           [sum(sum(sum(Other))), sum(sum(sum(Other[:, :, 0:8]))), sum(sum(sum(Other[:, :, 8:10]))),
+            sum(sum(sum(Other[:, :, 10:12]))), sum(sum(sum(Other[:, :, 12:14]))),
+            sum(sum(Other[:, :, 14])), sum(sum(Other[:, :, 15]))]
+
+
+def calcWhiteScore(Same, Other, Color):
+    # print"White Score"
+    stats = calcStats(Same, Other)
+    # print stats
+    if Color:
+        return (((stats[0][6] * stats[0][0]) / 16.0) ** 2.) * (1 - (stats[1][0] * stats[1][6]) / 16.0) #
+    else:
+        return (((stats[1][6] * stats[1][0]) / 16.0) ** 2.) * (1 - (stats[0][0] * stats[0][6]) / 16.0) #
+
+
+def calcBlackScore(Same, Other, Color):
+    stats = calcStats(Same, Other)
+    # print stats
+    # if Color:
+    #     return ((stats[0][6] * stats[0][0]) / 16.0) * (1 - (stats[1][0] * stats[1][6]) / 16.0)
+    # else:
+    #     return ((stats[1][6] * stats[1][0]) / 16.0) * (1 - (stats[0][0] * stats[0][6]) / 16.0)
+    if Color:
+        return (((stats[1][6] * stats[1][0]) /16.0) ** 2.) * (1- (stats[0][0] * stats[0][6])/ 16.0) #
+    else:
+        return (((stats[0][6] * stats[0][0]) /16.0) ** 2.) * (1- (stats[1][0] * stats[1][6])/ 16.0) #
+
+
+def addMovesWhite(White, Black, Color, Moves, number):
+    for x in range(0, 8):
+        for y in range(0, 8):
+            if sum(White[x][y]) > 0:
+                index = numpy.where(White[x][y] > 0)[0][0]
+                if index < 8:
+                    if x < 7:
+                        if sum(White[x + 1][y]) == 0.0 and sum(Black[x + 1][y]) == 0.0:
+                            print "Pawn"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + 1][y][index] = 1.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + 1, y, calcWhiteScore(a, b, color)])
+                        if y < 7 and sum(Black[x + 1][y + 1]) > 0.0:
+                            print "Pawn"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + 1][y + 1][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x + 1][y + 1][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + 1, y + 1, calcWhiteScore(a, b, color)])
+                        if y > 0 and sum(Black[x + 1][y - 1]) > 0.0:
+                            print "Pawn"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + 1][y - 1][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x + 1][y - 1][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + 1, y - 1, calcWhiteScore(a, b, color)])
+
+                elif index < 10:
+                    shift = 1
+                    block = 0
+                    while shift + x <= 7 and block == 0:
+                        block += sum(White[x + shift][y])
+                        if block == 0:
+                            print "Rook"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + shift][y][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x + shift][y][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + shift, y, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x + shift][y])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while x - shift >= 0 and block == 0:
+                        block += sum(White[x - shift][y])
+                        if block == 0:
+                            print "Rook"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x - shift][y][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x - shift][y][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x - shift, y, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x - shift][y])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and block == 0:
+                        block += sum(White[x][y + shift])
+                        if block == 0:
+                            print "Rook"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x][y + shift][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x, y + shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and block == 0:
+                        block += sum(White[x][y - shift])
+                        if block == 0:
+                            print "Rook"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x, y - shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x][y - shift])
+                        shift += 1
+                elif index < 12:
+                    for mod in [[1, 2], [1, -2], [-1, -2], [-1, 2], [2, 1], [2, -1], [-2, -1], [-2, 1]]:
+                        if 0 <= x + mod[0] <= 7 and 0 <= y + mod[1] <= 7 and sum(White[x + mod[0]][y + mod[1]]) == 0.0:
+                            print "Knight"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + mod[0]][y + mod[1]][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x + mod[0]][y + mod[1]][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + mod[0], y + mod[1], calcWhiteScore(a, b, color)])
+                elif index < 14:
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and shift + x <= 7 and block == 0:
+                        block += sum(White[x + shift][y + shift])
+                        if block == 0:
+                            print "Bishop"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + shift][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x + shift][y][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + shift, y + shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x + shift][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and x - shift >= 0 and block == 0:
+                        block += sum(White[x - shift][y + shift])
+                        if block == 0:
+                            print "Bishop"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x - shift][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x - shift][y + shift][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x - shift, y + shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x - shift][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and shift + x <= 7 and block == 0:
+                        block += sum(White[x + shift][y - shift])
+                        if block == 0:
+                            print "Bishop"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + shift][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x + shift][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + shift, y - shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x + shift][y - shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and x - shift >= 0 and block == 0:
+                        block += sum(White[x + shift][y - shift])
+                        if block == 0:
+                            print "Bishop"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + shift][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x + shift][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + shift, y - shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x + shift][y - shift])
+                        shift += 1
+                elif index == 14:
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and shift + x <= 7 and block == 0:
+                        block += sum(White[x + shift][y + shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + shift][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x + shift][y][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + shift, y + shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x + shift][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and x - shift >= 0 and block == 0:
+                        block += sum(White[x - shift][y + shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x - shift][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x - shift][y + shift][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x - shift, y + shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x - shift][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and shift + x <= 7 and block == 0:
+                        block += sum(White[x + shift][y - shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + shift][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x + shift][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + shift, y - shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x + shift][y - shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and x - shift >= 0 and block == 0:
+                        block += sum(White[x - shift][y - shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x - shift][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x - shift][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x - shift, y - shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x - shift][y - shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while shift + x <= 7 and block == 0:
+                        block += sum(White[x + shift][y])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + shift][y][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x + shift][y][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + shift, y, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x + shift][y])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while x - shift >= 0 and block == 0:
+                        block += sum(White[x - shift][y])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x - shift][y][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x - shift][y][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x - shift, y, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x - shift][y])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and block == 0:
+                        block += sum(White[x][y + shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x][y + shift][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x, y + shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and block == 0:
+                        block += sum(White[x][y - shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x, y - shift, calcWhiteScore(a, b, color)])
+                        block += sum(Black[x][y - shift])
+                        shift += 1
+                else:
+                    for mod in [[1, 1], [1, -1], [-1, -1], [-1, 1], [1, 1], [1, -1], [-1, -1], [-1, 1]]:
+                        if 0 <= x + mod[0] <= 7 and 0 <= y + mod[1] <= 7 and sum(White[x + mod[0]][y + mod[1]]) == 0.0:
+                            print "King"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            White_[x][y][index] = 0.0
+                            White_[x + mod[0]][y + mod[1]][index] = 1.0
+                            for n in range(0, 16):
+                                Black_[x + mod[0]][y + mod[1]][n] = 0.0
+                            a, b, color = goNGenerations(White_, Black_, Color, number)
+                            Moves.append([x, y, x + mod[0], y + mod[1], calcWhiteScore(a, b, color)])
+
+
+def addMovesBlack(White, Black, Color, Moves, number):
+    for x in range(0, 8):
+        for y in range(0, 8):
+            if sum(Black[x][y]) > 0:
+                index = numpy.where(Black[x][y] > 0)[0][0]
+                if index < 8:
+                    if x < 7:
+                        if sum(White[x - 1][y]) == 0.0 and sum(Black[x - 1][y]) == 0.0:
+                            print "Pawn"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x - 1][y][index] = 1.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x - 1, y, calcBlackScore(a, b, color)])
+                        if y < 7 and sum(White[x - 1][y + 1]) > 0.0:
+                            print "Pawn"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x - 1][y + 1][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x - 1][y + 1][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x - 1, y + 1, calcBlackScore(a, b, color)])
+                        if y > 0 and sum(White[x - 1][y - 1]) > 0.0:
+                            print "Pawn"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x - 1][y - 1][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x - 1][y - 1][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x - 1, y - 1, calcBlackScore(a, b, color)])
+
+                elif index < 10:
+                    shift = 1
+                    block = 0
+                    while shift + x <= 7 and block == 0:
+                        block += sum(Black[x + shift][y])
+                        if block == 0:
+                            print "Rook"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x + shift][y][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x + shift][y][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x + shift, y, calcBlackScore(a, b, color)])
+                        block += sum(White[x + shift][y])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while x - shift >= 0 and block == 0:
+                        block += sum(Black[x - shift][y])
+                        if block == 0:
+                            print "Rook"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x - shift][y][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x - shift][y][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x - shift, y, calcBlackScore(a, b, color)])
+                        block += sum(White[x - shift][y])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and block == 0:
+                        block += sum(Black[x][y + shift])
+                        if block == 0:
+                            print "Rook"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x][y + shift][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x, y + shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and block == 0:
+                        block += sum(Black[x][y - shift])
+                        if block == 0:
+                            print "Rook"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x, y - shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x][y - shift])
+                        shift += 1
+                elif index < 12:
+                    for mod in [[1, 2], [1, -2], [-1, -2], [-1, 2], [2, 1], [2, -1], [-2, -1], [-2, 1]]:
+                        if 0 <= x + mod[0] <= 7 and 0 <= y + mod[1] <= 7 and sum(Black[x + mod[0]][y + mod[1]]) == 0.0:
+                            print "Knight"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x + mod[0]][y + mod[1]][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x + mod[0]][y + mod[1]][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x + mod[0], y + mod[1], calcBlackScore(a, b, color)])
+                elif index < 14:
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and shift + x <= 7 and block == 0:
+                        block += sum(Black[x + shift][y + shift])
+                        if block == 0:
+                            print "Bishop"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x + shift][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x + shift][y][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x + shift, y + shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x + shift][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and x - shift >= 0 and block == 0:
+                        block += sum(Black[x - shift][y + shift])
+                        if block == 0:
+                            print "Bishop"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x - shift][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x - shift][y + shift][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x - shift, y + shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x - shift][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and shift + x <= 7 and block == 0:
+                        block += sum(Black[x + shift][y - shift])
+                        if block == 0:
+                            print "Bishop"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x + shift][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x + shift][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x + shift, y - shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x + shift][y - shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and x - shift >= 0 and block == 0:
+                        block += sum(Black[x - shift][y - shift])
+                        if block == 0:
+                            print "Bishop"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x - shift][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x - shift][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x - shift, y - shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x - shift][y - shift])
+                        shift += 1
+                elif index == 14:
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and shift + x <= 7 and block == 0:
+                        block += sum(Black[x + shift][y + shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x + shift][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x + shift][y][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x + shift, y + shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x + shift][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and x - shift >= 0 and block == 0:
+                        block += sum(Black[x - shift][y + shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x - shift][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x - shift][y + shift][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x - shift, y + shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x - shift][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and shift + x <= 7 and block == 0:
+                        block += sum(Black[x + shift][y - shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x + shift][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x + shift][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x + shift, y - shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x + shift][y - shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and x - shift >= 0 and block == 0:
+                        block += sum(Black[x - shift][y - shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x - shift][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x - shift][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x - shift, y - shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x - shift][y - shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while shift + x <= 7 and block == 0:
+                        block += sum(Black[x + shift][y])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x + shift][y][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x + shift][y][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x + shift, y, calcBlackScore(a, b, color)])
+                        block += sum(White[x + shift][y])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while x - shift >= 0 and block == 0:
+                        block += sum(Black[x - shift][y])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x - shift][y][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x - shift][y][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x - shift, y, calcBlackScore(a, b, color)])
+                        block += sum(White[x - shift][y])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while shift + y <= 7 and block == 0:
+                        block += sum(Black[x][y + shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x][y + shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x][y + shift][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x, y + shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x][y + shift])
+                        shift += 1
+                    shift = 1
+                    block = 0
+                    while y - shift >= 0 and block == 0:
+                        block += sum(Black[x][y - shift])
+                        if block == 0:
+                            print "Queen"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x][y - shift][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x][y - shift][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x, y - shift, calcBlackScore(a, b, color)])
+                        block += sum(White[x][y - shift])
+                        shift += 1
+                else:
+                    for mod in [[1, 1], [1, -1], [-1, -1], [-1, 1], [1, 1], [1, -1], [-1, -1], [-1, 1]]:
+                        if 0 <= x + mod[0] <= 7 and 0 <= y + mod[1] <= 7 and sum(Black[x + mod[0]][y + mod[1]]) == 0.0:
+                            print "King"
+                            White_, Black_ = numpy.copy(White), numpy.copy(Black)
+                            Black_[x][y][index] = 0.0
+                            Black_[x + mod[0]][y + mod[1]][index] = 1.0
+                            for n in range(0, 16):
+                                White_[x + mod[0]][y + mod[1]][n] = 0.0
+                            a, b, color = goNGenerations(Black_, White_, Color, number)
+                            Moves.append([x, y, x + mod[0], y + mod[1], calcBlackScore(a, b, color)])

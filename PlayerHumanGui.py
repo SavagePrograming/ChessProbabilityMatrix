@@ -9,15 +9,16 @@ class PlayerHumanGui(Player):
         Player.__init__(self, board)
         self.name = name
 
-    def runTurn(self, Color):
-        print self.name + "'s Turn"
-        if Color:
-            print "Color is White"
-        else:
-            print "Color is Black"
+    # def runTurn(self, Color):
+    #     # print self.name + "'s Turn"
+    #     # if Color:
+    #     #     print "Color is White"
+    #     # else:
+    #     #     print "Color is Black"
+    #     return Color
 
     def handleEvents(self, Events, turn):
-        turn = Player.handleEvents(Events)
+        turn = Player.handleEvents(self, Events, turn)
         for event in Events:
             ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             # A key is pressed
@@ -90,21 +91,21 @@ class PlayerHumanGui(Player):
                     #
                     ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     if not Functions.hasSelected(self.board) == name2:
-                        name1 = Functions.hasSelected(self.board)
+                        name1 = Functions.getSelected(self.board).str_Name
                         Functions.move_(self.board, name1, name2)
                         if turn:
                             print 'White:', name1, ">", name2
                         else:
                             print 'Black:', name1, ">", name2
                         for sq in self.board.array_square_Squares:
-                            if sq.selected:
-                                sq.selected = False
+                            if sq.bol_Selected:
+                                sq.bol_Selected = False
                         turn = not turn
                         continue
                     else:
                         for sq in self.board.array_square_Squares:
-                            if sq.selected:
-                                sq.selected = False
+                            if sq.bol_Selected:
+                                sq.bol_Selected = False
                 else:
                     mousex, mousey = event.pos
                     if mousex < 50:
@@ -126,6 +127,6 @@ class PlayerHumanGui(Player):
                     y = int(mousey / 50) + 1
                     name1 = x + str(y)
                     for sq in self.board.array_square_Squares:
-                        if sq.name == name1:
-                            sq.selected = True
+                        if sq.str_Name == name1:
+                            sq.bol_Selected = True
         return turn
